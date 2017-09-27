@@ -137,8 +137,8 @@
    found that use of the maxLength in ROAs tends to lead to security
    problems. Specifically, as of June 2017, 84% of the prefixes specified in ROAs
    that use the maxLength attribute, are vulnerable to a
-   forged-origin subprefix hijack [insert citation]. The forged-origin subprefix hijack
-   [need a description of the attack vector] can be launched against any IP prefix
+   forged-origin subprefix hijack [insert citation]. The forged-origin subprefix hijack,
+   as described below, can be launched against any IP prefix
    that is authorized in ROA but is not originated in BGP.
    The impact of such an attack is the same as standard subprefix
    hijack on an IP prefix that is unprotected by a ROA in the RPKI.
@@ -150,7 +150,9 @@
    that include only those IP prefixes that are actually originated in BGP, and
    no other prefixes.  Operators SHOULD also avoid using the maxLength attribute
    in their ROAS whenever possible.  One ideal place to implement these
-   recommendations is in the user interfaces for configuring ROAs.
+   recommendations is in the user interfaces for configuring ROAs: thus this document
+   further recommends that designers and/or providers of such user interfaces SHOULD provide
+   warnings to draw the user's attention to the risks of using the maxLength attribute.
    </t>
 
    <t>
@@ -207,7 +209,8 @@
     which
     (1) the RPKI <xref target="RFC6480"/> is deployed, and
     (2) routers use RPKI origin validation to drop invalid routes <xref target="RFC6811" />, but
-    (3) BGPSEC <xref target="I-D.ietf-sidr-bgpsec-protocol"/> is not deployed.
+    (3) BGPSEC <xref target="I-D.ietf-sidr-bgpsec-protocol"/> (or any similar method to validate
+        the truthfulness of the BGP AS_PATH attribute) is not deployed.
     </t>
 
     <t>
