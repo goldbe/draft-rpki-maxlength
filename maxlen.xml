@@ -27,7 +27,6 @@
             </address>
         </author>
 
-
         <author fullname="Sharon Goldberg" initials="S." surname="Goldberg">
             <organization>Boston University</organization>
             <address>
@@ -41,8 +40,6 @@
                 <email>goldbe@cs.bu.edu</email>
             </address>
         </author>
-
-
 
         <author fullname="Kotikalapudi Sriram" initials="K." surname="Sriram">
             <organization>NIST</organization>
@@ -59,18 +56,17 @@
         </author>
 
         <author fullname="Job Snijders" initials="J." surname="Snijders">
-                <organization abbrev="NTT">NTT Communications</organization>
-                <address>
-                        <postal>
-                                <street>Theodorus Majofskistraat 100</street>
-                                <code>1065 SZ</code>
-                                <city>Amsterdam</city>
-                                <country>The Netherlands</country>
-                        </postal>
-                        <email>job@ntt.net</email>
-                </address>
+            <organization abbrev="NTT">NTT Communications</organization>
+            <address>
+                <postal>
+                    <street>Theodorus Majofskistraat 100</street>
+                    <code>1065 SZ</code>
+                    <city>Amsterdam</city>
+                    <country>The Netherlands</country>
+                </postal>
+                <email>job@ntt.net</email>
+            </address>
         </author>
-
 
         <author fullname="Ben Maddison" initials="B." surname="Maddison">
             <organization>Workonline Communications</organization>
@@ -85,457 +81,443 @@
             </address>
         </author>
 
-
         <date year="2017" />
 
         <!-- <workgroup></workgroup> -->
 
-		<keyword>Secure Internet routing</keyword>
+        <keyword>Secure Internet routing</keyword>
         <keyword>Resource public key infrastructure</keyword>
 
-    <abstract>
+        <abstract>
 
-       <t>
-        This document recommends that operators avoid using the maxLength
-        attribute when issuing Route Origin Authorizations
-        (ROAs) in the Resource Public Key
-        Infrastructure (RPKI).  These recommendations
-        complement those in <xref target="RFC7115" />.
-        </t>
-
-    </abstract>
-
-</front>
-
-<middle>
-
-    <section title="Introduction" anchor="intro">
-
-
-    <t>
-   The RPKI <xref target="RFC6480"/> uses Route Origin Authorizations (ROAs) to create a
-   cryptographically verifiable mapping from an IP prefix to a set of autonomous systems (ASes) that
-   are authorized to originate this prefix.  Each ROA contains a set of
-   IP prefixes, and an AS number of an AS authorized originate all the IP prefixes in the set
-   <xref target="RFC6482"/>.
-   Each ROA is cryptographically signed by the party that is authorized to
-   assign the set of IP prefixes by the allocating authority.
-   </t>
-
-   <t>
-   The ROA format also supports a maxLength attribute. According to
-   <xref target="RFC6482"/>,
-   "When present, the maxLength specifies the maximum length of the IP
-    address prefix that the AS is authorized to advertise."
-   Thus, rather than requiring the ROA to explictly list each prefix
-   the AS is authorized to originate, the maxLength attribute provides
-   a shorthand that authorizes an AS to originate a set of IP prefixes.
-   </t>
-   <t>
-   However, measurements of current RPKI deployments have
-   found that use of the maxLength in ROAs tends to lead to security
-   problems. Specifically, as of June 2017, 84% of the prefixes specified in ROAs
-   that use the maxLength attribute, are vulnerable to a
-   forged-origin subprefix hijack [insert citation]. The forged-origin subprefix hijack,
-   as described below, can be launched against any IP prefix
-   that is authorized in ROA but is not originated in BGP.
-   The impact of such an attack is the same as standard subprefix
-   hijack on an IP prefix that is unprotected by a ROA in the RPKI.
-   </t>
-
-   <t>
-   For this reason, this document recommends that, whenever possible,
-   operators SHOULD use "minimal ROAs"
-   that include only those IP prefixes that are actually originated in BGP, and
-   no other prefixes.  Operators SHOULD also avoid using the maxLength attribute
-   in their ROAS whenever possible.  One ideal place to implement these
-   recommendations is in the user interfaces for configuring ROAs: thus this document
-   further recommends that designers and/or providers of such user interfaces SHOULD provide
-   warnings to draw the user's attention to the risks of using the maxLength attribute.
-   </t>
-
-   <t>
-   The recommendations in this document clarify and extend the following
-   recommendation from <xref target="RFC7115"/>:
-   <list>
-   <t>
-      One advantage of minimal ROA length is that the forged origin attack
-      does not work for sub-prefixes that are not covered by overly long
-      max length.  For example, if, instead of 10.0.0.0/16-24, one issues
-      10.0.0.0/16 and 10.0.42.0/24, a forged origin attack cannot succeed
-      against 10.0.666.0/24.  They must attack the whole /16, which is more
-      likely to be noticed because of its size.
-   </t>
-   </list>
-   </t>
-
-   <t>
-   This best current practice requires no changes to the RPKI specification
-   and will not increase the number
-   of signed ROAs in the RPKI, because ROAs already support lists of
-   IP prefixes <xref target="RFC6482"/>.
-   </t>
-
-        <section title="Requirements">
             <t>
-                The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-                "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
-                document are to be interpreted as described in
-                <xref target="RFC2119" />.
+                This document recommends that operators avoid using the maxLength attribute when issuing Route Origin Authorizations (ROAs) in the Resource Public Key Infrastructure (RPKI).
+                These recommendations complement those in <xref target="RFC7115" />.
             </t>
+
+        </abstract>
+
+    </front>
+
+    <middle>
+
+        <section title="Introduction" anchor="intro">
+
+            <t>
+                The RPKI <xref target="RFC6480"/> uses Route Origin Authorizations (ROAs) to create a
+                cryptographically verifiable mapping from an IP prefix to a set of autonomous systems (ASes) that
+                are authorized to originate this prefix.  Each ROA contains a set of
+                IP prefixes, and an AS number of an AS authorized originate all the IP prefixes in the set
+                <xref target="RFC6482"/>.
+                Each ROA is cryptographically signed by the party that is authorized to
+                assign the set of IP prefixes by the allocating authority.
+            </t>
+
+            <t>
+                The ROA format also supports a maxLength attribute. According to
+                <xref target="RFC6482"/>,
+                "When present, the maxLength specifies the maximum length of the IP
+                address prefix that the AS is authorized to advertise."
+                Thus, rather than requiring the ROA to explictly list each prefix
+                the AS is authorized to originate, the maxLength attribute provides
+                a shorthand that authorizes an AS to originate a set of IP prefixes.
+            </t>
+            <t>
+                However, measurements of current RPKI deployments have
+                found that use of the maxLength in ROAs tends to lead to security
+                problems. Specifically, as of June 2017, 84% of the prefixes specified in ROAs
+                that use the maxLength attribute, are vulnerable to a
+                forged-origin subprefix hijack [insert citation]. The forged-origin subprefix hijack,
+                as described below, can be launched against any IP prefix
+                that is authorized in ROA but is not originated in BGP.
+                The impact of such an attack is the same as standard subprefix
+                hijack on an IP prefix that is unprotected by a ROA in the RPKI.
+            </t>
+
+            <t>
+                For this reason, this document recommends that, whenever possible,
+                operators SHOULD use "minimal ROAs"
+                that include only those IP prefixes that are actually originated in BGP, and
+                no other prefixes.  Operators SHOULD also avoid using the maxLength attribute
+                in their ROAS whenever possible.  One ideal place to implement these
+                recommendations is in the user interfaces for configuring ROAs: thus this document
+                further recommends that designers and/or providers of such user interfaces SHOULD provide
+                warnings to draw the user's attention to the risks of using the maxLength attribute.
+            </t>
+
+            <t>
+                The recommendations in this document clarify and extend the following
+                recommendation from <xref target="RFC7115"/>:
+                <list>
+                    <t>
+                        One advantage of minimal ROA length is that the forged origin attack
+                        does not work for sub-prefixes that are not covered by overly long
+                        max length.  For example, if, instead of 10.0.0.0/16-24, one issues
+                        10.0.0.0/16 and 10.0.42.0/24, a forged origin attack cannot succeed
+                        against 10.0.666.0/24.  They must attack the whole /16, which is more
+                        likely to be noticed because of its size.
+                    </t>
+                </list>
+            </t>
+
+            <t>
+                This best current practice requires no changes to the RPKI specification
+                and will not increase the number
+                of signed ROAs in the RPKI, because ROAs already support lists of
+                IP prefixes <xref target="RFC6482"/>.
+            </t>
+
+            <section title="Requirements">
+                <t>
+                    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+                    "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+                    document are to be interpreted as described in
+                    <xref target="RFC2119" />.
+                </t>
+            </section>
+
         </section>
 
-
-
-    </section>
-
-    <section title="Suggested Reading">
+        <section title="Suggested Reading">
 
             <t>It is assumed that the reader understands BGP
-            <xref target="RFC4271"/>, the RPKI <xref target="RFC6480"/>
-            Route Origin Authorizations (ROAs) <xref target="RFC6482"/>,
-            RPKI-based Prefix Validation <xref target="RFC6811"/>,
-            and BGPSEC <xref target="I-D.ietf-sidr-bgpsec-protocol"/>.
+                <xref target="RFC4271"/>, the RPKI <xref target="RFC6480"/>
+                Route Origin Authorizations (ROAs) <xref target="RFC6482"/>,
+                RPKI-based Prefix Validation <xref target="RFC6811"/>,
+                and BGPSEC <xref target="I-D.ietf-sidr-bgpsec-protocol"/>.
             </t>
 
         </section>
 
-   <section title="Forged Origin Subprefix Hijack" anchor="hijack">
+        <section title="Forged Origin Subprefix Hijack" anchor="hijack">
 
+            <t>The forged-origin subprefix hijack is relevant to a scenario in
+                which
+                (1) the RPKI <xref target="RFC6480"/> is deployed, and
+                (2) routers use RPKI origin validation to drop invalid routes <xref target="RFC6811" />, but
+                (3) BGPSEC <xref target="I-D.ietf-sidr-bgpsec-protocol"/> (or any similar method to validate
+                the truthfulness of the BGP AS_PATH attribute) is not deployed.
+            </t>
 
+            <t>
+                We describe the forged-origin subprefix hijack <xref target="RFC7115" /> <xref target="GCHSS" />
+                using a running example.
+            </t>
 
-    <t>The forged-origin subprefix hijack is relevant to a scenario in
-    which
-    (1) the RPKI <xref target="RFC6480"/> is deployed, and
-    (2) routers use RPKI origin validation to drop invalid routes <xref target="RFC6811" />, but
-    (3) BGPSEC <xref target="I-D.ietf-sidr-bgpsec-protocol"/> (or any similar method to validate
-        the truthfulness of the BGP AS_PATH attribute) is not deployed.
-    </t>
+            <t>
+                Consider the IP prefix 168.122.0.0/16 which is allocated to an
+                organization that also operates AS 111. In BGP, AS 111 originates
+                the IP prefix 168.122.0.0/16 as well as its subprefix 168.122.225.0/24.
+                Therefore, the RPKI should contain a ROA authorizing AS 111 to
+                originate these two IP prefixes.  That is, the ROA should be
+                <list>
+                    <t>
+                        ROA:(168.122.0.0/16,168.122.225.0/24, AS 111)
+                    </t>
+                </list>
+                This ROA is "minimal" because it includes only those IP prefixes that AS 111
+                originates in BGP, but no other IP prefixes.
+                <xref target="RFC6907" />
+            </t>
 
-    <t>
-    We describe the forged-origin subprefix hijack <xref target="RFC7115" /> <xref target="GCHSS" />
-    using a running example.
-    </t>
+            <t>
+                Now suppose an attacking AS 666 originates
+                a BGP announcement for a subprefix 168.122.0.0/24.  This is a standard
+                "subprefix hijack".
+            </t>
 
-    <t>
-    Consider the IP prefix 168.122.0.0/16 which is allocated to an
-    organization that also operates AS 111. In BGP, AS 111 originates
-    the IP prefix 168.122.0.0/16 as well as its subprefix 168.122.225.0/24.
-    Therefore, the RPKI should contain a ROA authorizing AS 111 to
-    originate these two IP prefixes.  That is, the ROA should be
-    <list>
-    <t>
-    ROA:(168.122.0.0/16,168.122.225.0/24, AS 111)
-    </t>
-    </list>
-    This ROA is "minimal" because it includes only those IP prefixes that AS 111
-    originates in BGP, but no other IP prefixes.
-    <xref target="RFC6907" />
-    </t>
+            <t>
+                In the absence of
+                the minimal ROA above, AS 666 could intercept traffic for the addresses
+                in 168.122.0.0/24.  This is because routers perform a longest-prefix match
+                when deciding where to forward IP packets, and 168.122.0.0/24 originated
+                by AS 666 is a longer prefix than 168.122.0.0/16 originated by AS 111.
+            </t>
 
-    <t>
-    Now suppose an attacking AS 666 originates
-    a BGP announcement for a subprefix 168.122.0.0/24.  This is a standard
-    "subprefix hijack".
-    </t>
+            <t>
+                However, the minimal ROA renders AS 666's BGP announcement invalid,
+                because (1) this ROA  "covers" the attacker's announcement (since 168.122.0.0/24 is a
+                subprefix of 168.122.0.0/16), and
+                (2) there is no ROA "matching"
+                the attacker's announcement (there is no ROA for AS 666 and
+                IP prefix 168.122.0.0/24) <xref target="RFC6811" />.
+                If routers ignore invalid BGP announcements, the
+                minimal ROA above ensures that the subprefix hijack will fail.
+            </t>
 
-    <t>
-    In the absence of
-    the minimal ROA above, AS 666 could intercept traffic for the addresses
-    in 168.122.0.0/24.  This is because routers perform a longest-prefix match
-    when deciding where to forward IP packets, and 168.122.0.0/24 originated
-    by AS 666 is a longer prefix than 168.122.0.0/16 originated by AS 111.
-    </t>
+            <t>
+                Now suppose that instead the "minimal ROA" was replaced with a "loose ROA"
+                that used maxLength as a shorthand for set of IP prefixes that AS 111 is
+                authorized to originate.  The "loose ROA" would be:
+                <list>
+                    <t>
+                        ROA:(168.122.0.0/16-24, AS 111)
+                    </t>
+                </list>
+                This "loose ROA" authorizes AS 111 to originate any subprefix of
+                168.122.0.0/16, up to length /24. That is, AS 111 could originate
+                168.122.225.0/24 as well as all of 168.122.0.0/17, 168.122.128.0/17,
+                ..., 168.122.255.0/24 but not 168.122.0.0/25.
+            </t>
 
-    <t>
-    However, the minimal ROA renders AS 666's BGP announcement invalid,
-    because (1) this ROA  "covers" the attacker's announcement (since 168.122.0.0/24 is a
-    subprefix of 168.122.0.0/16), and
-    (2) there is no ROA "matching"
-    the attacker's announcement (there is no ROA for AS 666 and
-    IP prefix 168.122.0.0/24) <xref target="RFC6811" />.
-    If routers ignore invalid BGP announcements, the
-    minimal ROA above ensures that the subprefix hijack will fail.
-    </t>
+            <t>
+                However, AS 111 only originates two prefixes in BGP: 168.122.0.0/16
+                and 168.122.255.0/24.  This means that all other prefixes authorized
+                by the "loose ROA" (for instance, 168.122.0.0/24), are
+                vulnerable to the following forged-origin subprefix hijack
+                [<xref target="RFC7115"/>,<xref target="GCHSS" />]:
+            </t>
 
-    <t>
-    Now suppose that instead the "minimal ROA" was replaced with a "loose ROA"
-    that used maxLength as a shorthand for set of IP prefixes that AS 111 is
-    authorized to originate.  The "loose ROA" would be:
-    <list>
-    <t>
-    ROA:(168.122.0.0/16-24, AS 111)
-    </t>
-    </list>
-     This "loose ROA" authorizes AS 111 to originate any subprefix of
-     168.122.0.0/16, up to length /24. That is, AS 111 could originate
-     168.122.225.0/24 as well as all of 168.122.0.0/17, 168.122.128.0/17,
-     ..., 168.122.255.0/24 but not 168.122.0.0/25.
-    </t>
+            <t>
+                <list>
+                    <t>    The  hijacker AS 666 sends a BGP announcement
+                        "168.122.0.0/24: AS 666, AS 111",
+                        falsely claiming that AS 666 is a neighbor of AS 111
+                        and falsely claiming that AS 111 originates the IP
+                        prefix 168.122.0.0/24.  In fact, the IP prefix 168.122.0.0/24
+                        is not originated by AS 111.
+                    </t>
+                </list>
+            </t>
 
-    <t>
-        However, AS 111 only originates two prefixes in BGP: 168.122.0.0/16
-        and 168.122.255.0/24.  This means that all other prefixes authorized
-        by the "loose ROA" (for instance, 168.122.0.0/24), are
-        vulnerable to the following forged-origin subprefix hijack
-        [<xref target="RFC7115"/>,<xref target="GCHSS" />]:
-    </t>
+            <t>
+                The hijacker's BGP announcement is valid according the RPKI,
+                since the ROA (168.122.0.0/16-24, AS 111) authorizes AS 111 to
+                originate BGP routes for 168.122.0.0/24. Becaue AS 111 does not
+                actually originate a route for 168.122.0.0/24, the hijacker's route
+                is the *only* route to the 168.122.0.0/24. Longest-prefix-match
+                routing ensures that the hijacker's route to the subprefix
+                168.122.0.0/24 is always preferred over the legitimate route
+                to 168.122.0.0/16 originated by AS 111.
+                Thus, if the hijacker's route propagates through the Internet,
+                the hijacker will intercept traffic destined for IP
+                addresses in 168.122.0.0/24.
+            </t>
+            <t>
+                The forged origin *subprefix* hijack would have failed if the
+                "minimal ROA" described above was used instead of the "loose ROA".
+                If the "minimal ROA" had been used instead, the attacker would be
+                forced to launch a forged origin *prefix* hijack in order to attract
+                traffic, as follows:
+            </t>
 
-    <t>
-        <list>
-        <t>    The  hijacker AS 666 sends a BGP announcement
-        "168.122.0.0/24: AS 666, AS 111",
-        falsely claiming that AS 666 is a neighbor of AS 111
-        and falsely claiming that AS 111 originates the IP
-        prefix 168.122.0.0/24.  In fact, the IP prefix 168.122.0.0/24
-        is not originated by AS 111.
-        </t>
-        </list>
-    </t>
+            <t>
+                <list>
+                    <t>    The  hijacker AS 666 sends a BGP announcement
+                        "168.122.0.0/16: AS 666, AS 111",
+                        falsely claiming that AS 666 is a neighbor of AS 111.
+                    </t>
+                </list>
+            </t>
 
-    <t>
-        The hijacker's BGP announcement is valid according the RPKI,
-        since the ROA (168.122.0.0/16-24, AS 111) authorizes AS 111 to
-        originate BGP routes for 168.122.0.0/24. Becaue AS 111 does not
-        actually originate a route for 168.122.0.0/24, the hijacker's route
-        is the *only* route to the 168.122.0.0/24. Longest-prefix-match
-        routing ensures that the hijacker's route to the subprefix
-        168.122.0.0/24 is always preferred over the legitimate route
-        to 168.122.0.0/16 originated by AS 111.
-        Thus, if the hijacker's route propagates through the Internet,
-        the hijacker will intercept traffic destined for IP
-        addresses in 168.122.0.0/24.
-    </t>
-    <t>
-        The forged origin *subprefix* hijack would have failed if the
-        "minimal ROA" described above was used instead of the "loose ROA".
-        If the "minimal ROA" had been used instead, the attacker would be
-        forced to launch a forged origin *prefix* hijack in order to attract
-        traffic, as follows:
-    </t>
+            <t>
+                This forged-origin *prefix* hijack is significantly
+                less damaging than the forged-origin *subprefix* hijack. With a forged-origin
+                *prefix* hijack, AS 111 legitimately originates 168.122.0.0/16 in BGP, so
+                the hijacker AS 666 is not presenting the *only* route
+                to 168.122.0.0/16.  Moreover, the path originated by AS 666 is one hop longer than the
+                path originated by the legitimate origin AS 111.  As discussed in
+                <xref target="LSG16"/>, this means that the hijacker will attract
+                less traffic than he would have in the
+                forged origin *subprefix* hijack, where the hijacker presents the *only* route
+                to the hijacked subprefix.
+            </t>
 
-    <t>
-        <list>
-        <t>    The  hijacker AS 666 sends a BGP announcement
-        "168.122.0.0/16: AS 666, AS 111",
-        falsely claiming that AS 666 is a neighbor of AS 111.
-        </t>
-        </list>
-    </t>
+            <t>
+                In sum, a forged-origin subprefix hijack has the same
+                impact as a regular subprefix hijack.
+                A forged-origin *subprefix*
+                hijack is also more damaging than than forged-origin *prefix* hijack.
+            </t>
+            <t>
+                Any ROA that is not minimal is vulnerable to
+                forged-origin subprefix hijack.
+            </t>
 
-    <t>
-    This forged-origin *prefix* hijack is significantly
-    less damaging than the forged-origin *subprefix* hijack. With a forged-origin
-    *prefix* hijack, AS 111 legitimately originates 168.122.0.0/16 in BGP, so
-    the hijacker AS 666 is not presenting the *only* route
-    to 168.122.0.0/16.  Moreover, the path originated by AS 666 is one hop longer than the
-    path originated by the legitimate origin AS 111.  As discussed in
-    <xref target="LSG16"/>, this means that the hijacker will attract
-    less traffic than he would have in the
-    forged origin *subprefix* hijack, where the hijacker presents the *only* route
-    to the hijacked subprefix.
-    </t>
+        </section>
 
+        <section title="Measurements of Today's RPKI">
 
-    <t>
-        In sum, a forged-origin subprefix hijack has the same
-        impact as a regular subprefix hijack.
-        A forged-origin *subprefix*
-        hijack is also more damaging than than forged-origin *prefix* hijack.
-    </t>
-    <t>
-        Any ROA that is not minimal is vulnerable to
-        forged-origin subprefix hijack.
-    </t>
+            <t>
+                Network measurements from June 1, 2017 show that 12% of the IP prefixes
+                authorized in ROAs have a maxLength longer than their prefix length.
+                The vast majority of these (84%) of these are vulnerable to
+                forged-origin subprefix hijacks. Even large providers are vulnerable
+                to these attacks. See <xref target="GSG17"/> for details.
+            </t>
 
-   </section>
+            <t>
+                These measurements suggest that operators commonly misconfigure the
+                maxLength attribute, and unwittingly open themselves up to
+                forged-origin subprefix hijacks.
+            </t>
+        </section>
 
-   <section title="Measurements of Today's RPKI">
+        <section title="Use Minimal ROAs without Maxlength">
 
-   <t>
-   Network measurements from June 1, 2017 show that 12% of the IP prefixes
-   authorized in ROAs have a maxLength longer than their prefix length.
-   The vast majority of these (84%) of these are vulnerable to
-   forged-origin subprefix hijacks. Even large providers are vulnerable
-   to these attacks. See <xref target="GSG17"/> for details.
-   </t>
+            <t>
+                Operators SHOULD avoid using the maxLength attribute in their ROAs.
+            </t>
 
-   <t>
-   These measurements suggest that operators commonly misconfigure the
-   maxLength attribute, and unwittingly open themselves up to
-   forged-origin subprefix hijacks.
-   </t>
-   </section>
+            <t>
+                Operators SHOULD use "minimal ROAs" whenever possible.
+                A minimal ROA contains only those IP prefixes that are actually
+                originated by an AS in BGP, and no other IP prefixes.
+                (See <xref target="hijack"/> for an example.)
+            </t>
 
-   <section title="Use Minimal ROAs without Maxlength">
+            <t>This practice requires no changes to the RPKI specification and will not increase the number
+                of signed ROAs in the RPKI, because  ROAs already support lists of
+                IP prefixes <xref target="RFC6482"/>.
+                See also <xref target="GSG17"/> for further discussion of
+                why this practice will have minimal
+                impact on the performance of the RPKI ecosystem.
+            </t>
 
-   <t>
-   Operators SHOULD avoid using the maxLength attribute in their ROAs.
-   </t>
+            <section title="When a Minimal ROA Cannot Be Used?" anchor="nominimal">
 
-   <t>
-   Operators SHOULD use "minimal ROAs" whenever possible.
-   A minimal ROA contains only those IP prefixes that are actually
-   originated by an AS in BGP, and no other IP prefixes.
-   (See <xref target="hijack"/> for an example.)
-   </t>
-
-   <t>This practice requires no changes to the RPKI specification and will not increase the number
-   of signed ROAs in the RPKI, because  ROAs already support lists of
-   IP prefixes <xref target="RFC6482"/>.
-   See also <xref target="GSG17"/> for further discussion of
-   why this practice will have minimal
-   impact on the performance of the RPKI ecosystem.
-   </t>
-
-    <section title="When a Minimal ROA Cannot Be Used?" anchor="nominimal">
-
-
-   <t>
-   Sometimes, it is not possible to use a "minimal
-   ROA", because an operator wants to issue a ROA that includes an IP prefix
-   that is sometimes (but not always) originated in BGP.
-   </t>
-
-   <t>
-   In this case, the ROA SHOULD include (1) the set of
-   IP prefixes that are always originated in BGP, and (2) the set IP prefixes that
-   are sometimes, but not always, originated in BGP.   The ROA SHOULD NOT
-   include any IP prefixes that the operator knows will not be originated in BGP.
-   Whenever possible, the ROA SHOULD also avoid the use of the maxlength attribute.
-   </t>
-
-   <t>We now extend our running example to illustrate one situation where
-   where it is not possible to issue a minimal ROA.
-   </t>
-
-   <t>Suppose AS 111 has a contract with a DDoS mitigation service
-   provider that holds AS 222.  The DDoS mitigation service is
-   contracted to protect all IP addresses covered by 168.122.0.0/22.
-   When a DDoS attack is detected, AS 222
-   immediately originates 168.122.0.0/22, thus
-   attracting all the DDoS traffic to itself.  The traffic is scrubbed at
-   AS 222 and then and sent back to AS 111 over a backhaul data link.
-   Notice that, during a DDoS attack, the DDoS mitigation service provider
-   AS 222 originates a /22 prefix that are longer than
-   than AS 111's /16 prefix, and so all the traffic that normally goes
-   to AS 111 goes to AS 222 instead.
-   </t>
-
-   <t>
-   First, suppose the RPKI only had the minimal ROA for AS 111,
-   as described in <xref target="hijack"/>.  But, if there is
-   no ROA authorizing AS 222 to announce the /23 prefix,
-   then the traffic-scrubbing scheme would not work. That is,
-   if AS 222 originates the /22 prefix in BGP during a
-   DDoS attack, the announcement would be invalid
-   <xref target="RFC6811" />.
-   </t>
-
-   <t>
-   Instead, the RPKI should have two ROAs: one for AS 111 and one for AS 222.
-    <list>
-    <t>
-    ROA:(168.122.0.0/16,168.122.225.0/24, AS 111)
-    </t>
-    <t>
-    ROA:(168.122.0.0/22, AS 222)
-    </t>
-    </list>
-    Neither ROA uses the maxLength attribute. But, the second ROA is
-    not "minimal" because it contains a /22 prefix that is not
-    originated by anyone in BGP during normal operations.
-    The /22 prefix is only originated by AS 222
-    as part of its DDoS mitigation service during
-    a DDoS attack.
-    </t>
-
-    <t> Notice, however, that this scheme does not come without risks.
-    Namely, all of the IP addresses in 168.122.0.0/22 are vulnerable
-    to a forged-origin subprefix hijack
-    during normal operations, when the /22 prefix is not originated.
-    (The hijacker AS 666 would send the BGP announcement
-    `168.122.0.0/22: AS 666, AS 222'', falsely claiming that
-    AS 666 is a neighbor of AS 222 and falsely claiming
-    that AS 222 originates 168.122.0.0/22.)
-    </t>
-
-    <t> In some situations, the DDoS mitigation service at AS 222
-    might want to limit the amount of DDoS traffic that it attracts and scrubs.
-    Suppose that a DDoS attack only targets IP addresses in 168.122.0.0/24.
-    Then, the DDoS mitigation service at
-    AS 222 only wants to attract the traffic destinated for the /24 prefix
-    that is under attack, but not the entire /22 prefix.  To allow for this,
-    the RPKI should have two ROAs: one for AS 111 and one for AS 222.
-    <list>
-    <t>
-    ROA:(168.122.0.0/16,168.122.225.0/24, AS 111)
-    </t>
-    <t>
-    ROA:(168.122.0.0/22-24, AS 222)
-    </t>
-    </list>
-    </t>
-    <t>The second ROA uses the maxLength attribute because it is designed to
-    explicitly enable AS 222 to originate *any* /24 subprefix of 168.122.0.0/22.
-    </t>
-    <t>
-    As before, the second ROA is also not "minimal" because it contains
-    prefixes that are not originated by anyone in BGP during normal operations.
-    As before, all of the IP addresses in 168.122.0.0/22
-    are vulnerable to a forged-origin subprefix hijack during normal operations,
-    when the /22 prefix is not originated.
-    </t>
-    <t>
-    The use of maxLength in this second ROA also comes with an additional
-    risk. Consider a DDoS
-    attack that causes the DDoS mitigation service at AS 222 to originates prefix
-    168.122.0.0/24. It follows that all *other* /24 prefixes covered by the /22
-    prefix (i.e., 168.122.1.0/24, 168.122.2.0/24, 168.122.3.0/24)
-    are all vulnerable to a forged-origin subprefix attacks during the DDoS attack.
-    </t>
-
-
-   </section>
-
-   </section>
-
-
-
-    <section title="Change Log">
-        <t>
-            Note to RFC Editor: if this document does not obsolete an existing RFC,
-            please remove this appendix before publication as an RFC.
-        </t>
-
-        <t>
-            <list>
                 <t>
-                    00 - New document.
+                    Sometimes, it is not possible to use a "minimal
+                    ROA", because an operator wants to issue a ROA that includes an IP prefix
+                    that is sometimes (but not always) originated in BGP.
                 </t>
 
                 <t>
-                    01 - Updated network measurements. Updated citation to
-                <xref target="GSG17"/>. Editorial changes to
-                clarify difference between "minimal ROA" recommendation and
-                "avoid maxLength" recommendation. Updated example in
-                <xref target="nominimal"/>.
+                    In this case, the ROA SHOULD include (1) the set of
+                    IP prefixes that are always originated in BGP, and (2) the set IP prefixes that
+                    are sometimes, but not always, originated in BGP.   The ROA SHOULD NOT
+                    include any IP prefixes that the operator knows will not be originated in BGP.
+                    Whenever possible, the ROA SHOULD also avoid the use of the maxlength attribute.
                 </t>
-            </list>
-        </t>
-    </section>
 
-    <section title="Contributors">
-        <t>
-            This document would not be possible without the work of Omar Sagga
-             (Boston University).
-        </t>
-    </section>
+                <t>We now extend our running example to illustrate one situation where
+                    where it is not possible to issue a minimal ROA.
+                </t>
 
-</middle>
+                <t>Suppose AS 111 has a contract with a DDoS mitigation service
+                    provider that holds AS 222.  The DDoS mitigation service is
+                    contracted to protect all IP addresses covered by 168.122.0.0/22.
+                    When a DDoS attack is detected, AS 222
+                    immediately originates 168.122.0.0/22, thus
+                    attracting all the DDoS traffic to itself.  The traffic is scrubbed at
+                    AS 222 and then and sent back to AS 111 over a backhaul data link.
+                    Notice that, during a DDoS attack, the DDoS mitigation service provider
+                    AS 222 originates a /22 prefix that are longer than
+                    than AS 111's /16 prefix, and so all the traffic that normally goes
+                    to AS 111 goes to AS 222 instead.
+                </t>
 
-<back>
-    <!-- References Section -->
+                <t>
+                    First, suppose the RPKI only had the minimal ROA for AS 111,
+                    as described in <xref target="hijack"/>.  But, if there is
+                    no ROA authorizing AS 222 to announce the /23 prefix,
+                    then the traffic-scrubbing scheme would not work. That is,
+                    if AS 222 originates the /22 prefix in BGP during a
+                    DDoS attack, the announcement would be invalid
+                    <xref target="RFC6811" />.
+                </t>
+
+                <t>
+                    Instead, the RPKI should have two ROAs: one for AS 111 and one for AS 222.
+                    <list>
+                        <t>
+                            ROA:(168.122.0.0/16,168.122.225.0/24, AS 111)
+                        </t>
+                        <t>
+                            ROA:(168.122.0.0/22, AS 222)
+                        </t>
+                    </list>
+                    Neither ROA uses the maxLength attribute. But, the second ROA is
+                    not "minimal" because it contains a /22 prefix that is not
+                    originated by anyone in BGP during normal operations.
+                    The /22 prefix is only originated by AS 222
+                    as part of its DDoS mitigation service during
+                    a DDoS attack.
+                </t>
+
+                <t> Notice, however, that this scheme does not come without risks.
+                    Namely, all of the IP addresses in 168.122.0.0/22 are vulnerable
+                    to a forged-origin subprefix hijack
+                    during normal operations, when the /22 prefix is not originated.
+                    (The hijacker AS 666 would send the BGP announcement
+                    `168.122.0.0/22: AS 666, AS 222'', falsely claiming that
+                    AS 666 is a neighbor of AS 222 and falsely claiming
+                    that AS 222 originates 168.122.0.0/22.)
+                </t>
+
+                <t> In some situations, the DDoS mitigation service at AS 222
+                    might want to limit the amount of DDoS traffic that it attracts and scrubs.
+                    Suppose that a DDoS attack only targets IP addresses in 168.122.0.0/24.
+                    Then, the DDoS mitigation service at
+                    AS 222 only wants to attract the traffic destinated for the /24 prefix
+                    that is under attack, but not the entire /22 prefix.  To allow for this,
+                    the RPKI should have two ROAs: one for AS 111 and one for AS 222.
+                    <list>
+                        <t>
+                            ROA:(168.122.0.0/16,168.122.225.0/24, AS 111)
+                        </t>
+                        <t>
+                            ROA:(168.122.0.0/22-24, AS 222)
+                        </t>
+                    </list>
+                </t>
+                <t>The second ROA uses the maxLength attribute because it is designed to
+                    explicitly enable AS 222 to originate *any* /24 subprefix of 168.122.0.0/22.
+                </t>
+                <t>
+                    As before, the second ROA is also not "minimal" because it contains
+                    prefixes that are not originated by anyone in BGP during normal operations.
+                    As before, all of the IP addresses in 168.122.0.0/22
+                    are vulnerable to a forged-origin subprefix hijack during normal operations,
+                    when the /22 prefix is not originated.
+                </t>
+                <t>
+                    The use of maxLength in this second ROA also comes with an additional
+                    risk. Consider a DDoS
+                    attack that causes the DDoS mitigation service at AS 222 to originates prefix
+                    168.122.0.0/24. It follows that all *other* /24 prefixes covered by the /22
+                    prefix (i.e., 168.122.1.0/24, 168.122.2.0/24, 168.122.3.0/24)
+                    are all vulnerable to a forged-origin subprefix attacks during the DDoS attack.
+                </t>
+
+            </section>
+
+        </section>
+
+        <section title="Change Log">
+            <t>
+                Note to RFC Editor: if this document does not obsolete an existing RFC,
+                please remove this appendix before publication as an RFC.
+            </t>
+
+            <t>
+                <list>
+                    <t>
+                        00 - New document.
+                    </t>
+
+                    <t>
+                        01 - Updated network measurements. Updated citation to
+                        <xref target="GSG17"/>. Editorial changes to
+                        clarify difference between "minimal ROA" recommendation and
+                        "avoid maxLength" recommendation. Updated example in
+                        <xref target="nominimal"/>.
+                    </t>
+                </list>
+            </t>
+        </section>
+
+        <section title="Contributors">
+            <t>
+                This document would not be possible without the work of Omar Sagga
+                (Boston University).
+            </t>
+        </section>
+
+    </middle>
+
+    <back>
+        <!-- References Section -->
 
 <!--
      Section 4.7f of [RFC2223bis] specifies the requirements for the
@@ -569,7 +551,6 @@
             <seriesInfo name="in" value="ACM CoNEXT 2017" />
         </reference>
 
-
         <reference anchor="LSG16" target="http://cacm.acm.org/magazines/2016/10/207763-rethinking-security-for-internet-routing/">
             <front>
                 <title>Rethinking Security for Internet Routing</title>
@@ -581,14 +562,14 @@
             <seriesInfo name="in" value="Communications of the ACM" />
         </reference>
 
-		<reference anchor="GCHSS" target="https://eprint.iacr.org/2016/1010.pdf">
+        <reference anchor="GCHSS" target="https://eprint.iacr.org/2016/1010.pdf">
             <front>
                 <title>Are We There Yet? On RPKI&#39;s Deployment and Security</title>
                 <author initials="Y." surname="Gilad"><organization /></author>
                 <author initials="A." surname="Cohen"><organization /></author>
                 <author initials="A." surname="Herzberg"><organization /></author>
-				<author initials="M." surname="Schapira"><organization /></author>
-				<author initials="H." surname="Shulman"><organization /></author>
+                <author initials="M." surname="Schapira"><organization /></author>
+                <author initials="H." surname="Shulman"><organization /></author>
                 <date year="2017" month="February" />
             </front>
             <seriesInfo name="in" value="NDSS 2017" />
@@ -599,7 +580,7 @@
         <?rfc include="reference.I-D.ietf-sidr-bgpsec-protocol.xml"?>
     </references>
 
-  </back>
+</back>
 </rfc>
 <!-- vim: et ts=4 sts=4 sw=4 colorcolumn=100 spell :
 -->
