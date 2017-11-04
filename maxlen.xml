@@ -162,10 +162,7 @@
         <section title="Forged Origin Subprefix Hijack" anchor="hijack">
 
             <t>
-                The forged-origin subprefix hijack is relevant to a scenario in which
-                (1) the RPKI <xref target="RFC6480"/> is deployed, and
-                (2) routers use RPKI origin validation to drop invalid routes <xref target="RFC6811" />, but
-                (3) BGPSEC <xref target="I-D.ietf-sidr-bgpsec-protocol"/> (or any similar method to validate the truthfulness of the BGP AS_PATH attribute) is not deployed.
+                The forged-origin subprefix hijack is relevant to a scenario in which (1) the RPKI <xref target="RFC6480"/> is deployed, and (2) routers use RPKI origin validation to drop invalid routes <xref target="RFC6811" />, but (3) BGPSEC <xref target="I-D.ietf-sidr-bgpsec-protocol"/> (or any similar method to validate the truthfulness of the BGP AS_PATH attribute) is not deployed.
             </t>
 
             <t>
