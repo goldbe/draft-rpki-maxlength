@@ -114,7 +114,7 @@
             </t>
             <t>
                 However, measurements of current RPKI deployments have found that use of the maxLength in ROAs tends to lead to security problems.
-                Specifically, as of June 2017, 84% of the prefixes specified in ROAs that use the maxLength attribute, are vulnerable to a forged-origin subprefix hijack [insert citation].
+                Specifically, as of June 2017, 84% of the prefixes specified in ROAs that use the maxLength attribute, are vulnerable to a forged-origin subprefix hijack [HARMFUL].
                 The forged-origin subprefix hijack, as described below, can be launched against any IP prefix that is authorized in ROA but is not originated in BGP.
                 The impact of such an attack is the same as that of a subprefix hijack in the absence of ROA-based protection. 
             </t>
@@ -433,6 +433,20 @@
             </front>
             <seriesInfo name="in" value="NDSS 2017" />
         </reference>
+
+        <reference anchor="HARMFUL" target="https://eprint.iacr.org/2016/1015.pdf">
+            <!-- https://dl.acm.org/citation.cfm?doid=3143361.3143363 -->
+            <front>
+                <title>MaxLength Considered Harmful to the RPKI</title>
+                <author initials="Y." surname="Gilad"><organization /></author>
+                <author initials="O." surname="Sagga"><organization /></author>
+                <author initials="S." surname="Goldberg"><organization /></author>
+                <date year="2017" />
+            </front>
+            <!-- <seriesInfo name="in" value="NDSS 2017" /> -->
+        </reference>
+
+
 
         <?rfc include="reference.RFC.6907.xml"?>
         <?rfc include="reference.RFC.7115.xml"?>
