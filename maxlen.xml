@@ -42,7 +42,7 @@
         </author>
 
         <author fullname="Kotikalapudi Sriram" initials="K." surname="Sriram">
-            <organization>NIST</organization>
+            <organization abbrev="USA NIST">USA National Institute of Standards and Technology</organization>
             <address>
                 <postal>
                     <street>100 Bureau Drive</street>
@@ -305,7 +305,7 @@
                     Consider the following scenario prior to deployment of RPKI.
 					Suppose AS 64496 announced 168.122.0.0/16 and has a contract with a DDoS mitigation service provider that holds AS 64500.
 					Further, assume that the DDoS mitigation service contract applies to all IP addresses covered by 168.122.0.0/22.
-					When a DDoS attack is detected and reported by AS111, AS 64500 immediately originates 168.122.0.0/22, thus attracting all the DDoS traffic to itself.
+					When a DDoS attack is detected and reported by AS 64496, AS 64500 immediately originates 168.122.0.0/22, thus attracting all the DDoS traffic to itself.
 					The traffic is scrubbed at AS 64500 and then sent back to AS 64496 over a backhaul data link.
 					Notice that, during a DDoS attack, the DDoS mitigation service provider AS 64500 originates a /22 prefix that is longer than than AS 64496's /16 prefix, and so all the traffic (destined to addresses in 168.122.0.0/22) that normally goes to AS 64496 goes to AS 64500 instead.
                 </t>
