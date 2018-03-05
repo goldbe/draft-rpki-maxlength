@@ -6,7 +6,7 @@ Network Working Group                                           Y. Gilad
 Internet-Draft                                               S. Goldberg
 Intended status: Best Current Practice                 Boston University
 Expires: September 6, 2018                                     K. Sriram
-                                                                    NIST
+                                                                USA NIST
                                                              J. Snijders
                                                                      NTT
                                                              B. Maddison
@@ -321,7 +321,7 @@ Internet-Draft               RPKI maxLength                   March 2018
    mitigation service provider that holds AS 64500.  Further, assume
    that the DDoS mitigation service contract applies to all IP addresses
    covered by 168.122.0.0/22.  When a DDoS attack is detected and
-   reported by AS111, AS 64500 immediately originates 168.122.0.0/22,
+   reported by AS 64496, AS 64500 immediately originates 168.122.0.0/22,
    thus attracting all the DDoS traffic to itself.  The traffic is
    scrubbed at AS 64500 and then sent back to AS 64496 over a backhaul
    data link.  Notice that, during a DDoS attack, the DDoS mitigation
@@ -507,7 +507,7 @@ Internet-Draft               RPKI maxLength                   March 2018
 
 
    Kotikalapudi Sriram
-   NIST
+   USA National Institute of Standards and Technology
    100 Bureau Drive
    Gaithersburg, MD  20899
    USA
