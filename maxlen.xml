@@ -9,7 +9,7 @@
 <?rfc comments="yes"?>
 <?rfc inline="yes"?>
 
-<rfc category="bcp" docName="draft-ietf-sidrops-rpkimaxlen-00" ipr="trust200902">
+<rfc category="bcp" docName="draft-ietf-sidrops-rpkimaxlen-01" ipr="trust200902">
     <front>
         <title abbrev="RPKI maxLength">The Use of Maxlength in the RPKI</title>
 
