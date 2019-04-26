@@ -364,21 +364,31 @@ One ideal place to implement the ROA related recommendations is in the user inte
                 <t>
                     The use of maxLength in this second ROA also comes with an additional risk.
 					While it permits the DDoS mitigation service at AS 64500 to originate prefix 168.122.0.0/24 during a DDoS attack in that space, it also makes the  *other* /24 prefixes covered by the /22 prefix (i.e., 168.122.1.0/24, 168.122.2.0/24, 168.122.3.0/24) vulnerable to a forged-origin subprefix attacks.
-</t>
-<t>
-There is another entirely different way of managing ROAs for DDoS mitigation service. In this scheme, ROAs are not pre-created for the DDoS mitigation service but are created on the fly when the DDoS mitigation service request is made. Further, the BGP announcements for actuating the DDoS mitigation service will not be made until the ROAs propagate fully through the RPKI system. Hence, there would be a latency involved in DDoS mitigation service going into effect. This method would be effective only if the latency is guaranteed to be within some acceptable limit. This calls for mechanisms to be in place for RPKI data propagation to occur very fast. Thus, this scheme of managing ROAs for DDoS mitigation service helps with eliminating the attack surface for prefixes requiring this service. However, the viability of this scheme depends on future work related to achieving fast ROA propagation in the global RPKI system.     
                 </t>
-
+                <t>
+                    There is another entirely different way of managing ROAs for DDoS mitigation service.
+                    In this scheme, ROAs are not pre-created for the DDoS mitigation service but are created on the fly when the DDoS mitigation service request is made.
+                    Further, the BGP announcements for actuating the DDoS mitigation service will not be made until the ROAs propagate fully through the RPKI system.
+                    Hence, there would be a latency involved in DDoS mitigation service going into effect.
+                    This method would be effective only if the latency is guaranteed to be within some acceptable limit.
+                    This calls for mechanisms to be in place for RPKI data propagation to occur very fast.
+                    Thus, this scheme of managing ROAs for DDoS mitigation service helps with eliminating the attack surface for prefixes requiring this service.
+                    However, the viability of this scheme depends on future work related to achieving fast ROA propagation in the global RPKI system.
+                </t>
             </section>
+    </section>
 
-</section>
-
-<section title="ROAs and Origin Validation for RTBH Filtering Scenario" anchor="rtbh">
-<t>
-Considerations related to ROAs and origin validation <xref target="RFC6811"/> for the case of destination-based Remote Triggered Black Hole (RTBH) filtering are addressed here. In RTBH, highly specific prefixes (greater than /24 in IPv4 and greater than /48 in IPv6; possibly even /32 (IPv4) and /128 (IPv6)) are announced in BGP. These announcements are tagged with a BLACKHOLE Community <xref target="RFC7999"/>. It is obviously not desirable to use large maxlength or include any such highly specific prefixes in the ROAs to accommodate destination-based RTBH filtering. Therefore, operators SHOULD accommodate this scenario by accepting BGP announcements tagged with BLACKHOLE Community only if the following conditions are met: (1) the announcement is received on a BGP session on which there is agreement to honor BLACKHOLE Community, and (2) the prefix in the announcement is covered by a ROA that has an AS number matching with the AS number of the peer on that BGP session.    
-
-</t>
-        </section>
+    <section title="ROAs and Origin Validation for RTBH Filtering Scenario" anchor="rtbh">
+        <t>
+            Considerations related to ROAs and origin validation <xref target="RFC6811"/> for the case of destination-based Remote Triggered Black Hole (RTBH) filtering are addressed here.
+            In RTBH, highly specific prefixes (greater than /24 in IPv4 and greater than /48 in IPv6; possibly even /32 (IPv4) and /128 (IPv6)) are announced in BGP.
+            These announcements are tagged with a BLACKHOLE Community <xref target="RFC7999"/>.
+            It is obviously not desirable to use large maxlength or include any such highly specific prefixes in the ROAs to accommodate destination-based RTBH filtering.
+            Therefore, operators SHOULD accommodate this scenario by accepting BGP announcements tagged with BLACKHOLE Community only if the following conditions are met:
+                (1) the announcement is received on a BGP session on which there is agreement to honor BLACKHOLE Community, and
+                (2) the prefix in the announcement is covered by a ROA that has an AS number matching with the AS number of the peer on that BGP session.
+        </t>
+    </section>
 
         <section anchor="Acknowledgments" title="Acknowledgments">
             <t>
