@@ -151,6 +151,15 @@ One ideal place to implement the ROA related recommendations is in the user inte
                 </t>
             </section>
 
+            <section title=" Documentation Prefixes">
+                <t>
+                    The documentation prefixes recommended in [RFC5737] are insufficient
+   for use as example prefixes in this document.  Therefore, this
+   document uses <xref target="RFC1918" /> address space for constructing
+   example prefixes.
+                </t>
+            </section>
+
         </section>
 
         <section title="Suggested Reading">
@@ -172,30 +181,30 @@ One ideal place to implement the ROA related recommendations is in the user inte
             </t>
 
             <t>
-                Consider the IP prefix 168.122.0.0/16 which is allocated to an organization that also operates AS 64496.
-                In BGP, AS 64496 originates the IP prefix 168.122.0.0/16 as well as its subprefix 168.122.225.0/24.
+                Consider the IP prefix 192.168.0.0/16 which is allocated to an organization that also operates AS 64496.
+                In BGP, AS 64496 originates the IP prefix 192.168.0.0/16 as well as its subprefix 192.168.225.0/24.
                 Therefore, the RPKI should contain a ROA authorizing AS 64496 to originate these two IP prefixes.
                 That is, the ROA should be
                 <list>
                     <t>
-                        ROA:(168.122.0.0/16,168.122.225.0/24, AS 64496)
+                        ROA:(192.168.0.0/16,192.168.225.0/24, AS 64496)
                     </t>
                 </list>
                 This ROA is "minimal" because it includes only those IP prefixes that AS 64496 originates in BGP, but no other IP prefixes <xref target="RFC6907" />.
             </t>
 
             <t>
-                Now suppose an attacking AS 64511 originates a BGP announcement for a subprefix 168.122.0.0/24.
+                Now suppose an attacking AS 64511 originates a BGP announcement for a subprefix 192.168.0.0/24.
                 This is a standard "subprefix hijack".
             </t>
 
             <t>
-                In the absence of the minimal ROA above, AS 64511 could intercept traffic for the addresses in 168.122.0.0/24.
-                This is because routers perform a longest-prefix match when deciding where to forward IP packets, and 168.122.0.0/24 originated by AS 64511 is a longer prefix than 168.122.0.0/16 originated by AS 64496.
+                In the absence of the minimal ROA above, AS 64511 could intercept traffic for the addresses in 192.168.0.0/24.
+                This is because routers perform a longest-prefix match when deciding where to forward IP packets, and 192.168.0.0/24 originated by AS 64511 is a longer prefix than 192.168.0.0/16 originated by AS 64496.
             </t>
 
             <t>
-                However, the minimal ROA renders AS 64511's BGP announcement invalid, because (1) this ROA "covers" the attacker's announcement (since 168.122.0.0/24 is a subprefix of 168.122.0.0/16), and (2) there is no ROA "matching" the attacker's announcement (there is no ROA for AS 64511 and IP prefix 168.122.0.0/24) <xref target="RFC6811" />.
+                However, the minimal ROA renders AS 64511's BGP announcement invalid, because (1) this ROA "covers" the attacker's announcement (since 192.168.0.0/24 is a subprefix of 192.168.0.0/16), and (2) there is no ROA "matching" the attacker's announcement (there is no ROA for AS 64511 and IP prefix 192.168.0.0/24) <xref target="RFC6811" />.
                 If routers ignore invalid BGP announcements, the minimal ROA above ensures that the subprefix hijack will fail.
             </t>
 
@@ -204,31 +213,31 @@ One ideal place to implement the ROA related recommendations is in the user inte
                 The "loose ROA" would be:
                 <list>
                     <t>
-                        ROA:(168.122.0.0/16-24, AS 64496)
+                        ROA:(192.168.0.0/16-24, AS 64496)
                     </t>
                 </list>
-                This "loose ROA" authorizes AS 64496 to originate any subprefix of 168.122.0.0/16, up to length /24. That is, AS 64496 could originate 168.122.225.0/24 as well as all of 168.122.0.0/17, 168.122.128.0/17, ..., 168.122.255.0/24 but not 168.122.0.0/25.
+                This "loose ROA" authorizes AS 64496 to originate any subprefix of 192.168.0.0/16, up to length /24. That is, AS 64496 could originate 192.168.225.0/24 as well as all of 192.168.0.0/17, 192.168.128.0/17, ..., 192.168.255.0/24 but not 192.168.0.0/25.
             </t>
 
             <t>
-                However, AS 64496 only originates two prefixes in BGP: 168.122.0.0/16 and 168.122.255.0/24.
-                This means that all other prefixes authorized by the "loose ROA" (for instance, 168.122.0.0/24), are vulnerable to the following forged-origin subprefix hijack <xref target="RFC7115"/> <xref target="GCHSS" />:
+                However, AS 64496 only originates two prefixes in BGP: 192.168.0.0/16 and 192.168.255.0/24.
+                This means that all other prefixes authorized by the "loose ROA" (for instance, 192.168.0.0/24), are vulnerable to the following forged-origin subprefix hijack <xref target="RFC7115"/> <xref target="GCHSS" />:
             </t>
 
             <t>
                 <list>
                     <t>
-                        The  hijacker AS 64511 sends a BGP announcement "168.122.0.0/24: AS 64511, AS 64496", falsely claiming that AS 64511 is a neighbor of AS 64496 and falsely claiming that AS 64496 originates the IP prefix 168.122.0.0/24.
-                        In fact, the IP prefix 168.122.0.0/24 is not originated by AS 64496.
+                        The  hijacker AS 64511 sends a BGP announcement "192.168.0.0/24: AS 64511, AS 64496", falsely claiming that AS 64511 is a neighbor of AS 64496 and falsely claiming that AS 64496 originates the IP prefix 192.168.0.0/24.
+                        In fact, the IP prefix 192.168.0.0/24 is not originated by AS 64496.
                     </t>
                 </list>
             </t>
 
             <t>
-                The hijacker's BGP announcement is valid according to the RPKI, since the ROA (168.122.0.0/16-24, AS 64496) authorizes AS 64496 to originate BGP routes for 168.122.0.0/24.
-                Because AS 64496 does not actually originate a route for 168.122.0.0/24, the hijacker's route is the *only* route to the 168.122.0.0/24.
-                Longest-prefix-match routing ensures that the hijacker's route to the subprefix 168.122.0.0/24 is always preferred over the legitimate route to 168.122.0.0/16 originated by AS 64496.
-                Thus, the hijacker's route propagates through the Internet, the traffic destined for IP addresses in 168.122.0.0/24 will be delivered to the hijacker.
+                The hijacker's BGP announcement is valid according to the RPKI, since the ROA (192.168.0.0/16-24, AS 64496) authorizes AS 64496 to originate BGP routes for 192.168.0.0/24.
+                Because AS 64496 does not actually originate a route for 192.168.0.0/24, the hijacker's route is the *only* route to the 192.168.0.0/24.
+                Longest-prefix-match routing ensures that the hijacker's route to the subprefix 192.168.0.0/24 is always preferred over the legitimate route to 192.168.0.0/16 originated by AS 64496.
+                Thus, the hijacker's route propagates through the Internet, the traffic destined for IP addresses in 192.168.0.0/24 will be delivered to the hijacker.
             </t>
             <t>
                 The forged-origin *subprefix* hijack would have failed if the "minimal ROA" described above was used instead of the "loose ROA".
@@ -238,14 +247,14 @@ One ideal place to implement the ROA related recommendations is in the user inte
             <t>
                 <list>
                     <t>
-                        The  hijacker AS 64511 sends a BGP announcement "168.122.0.0/16: AS 64511, AS 64496", falsely claiming that AS 64511 is a neighbor of AS 64496.
+                        The  hijacker AS 64511 sends a BGP announcement "192.168.0.0/16: AS 64511, AS 64496", falsely claiming that AS 64511 is a neighbor of AS 64496.
                     </t>
                 </list>
             </t>
 
             <t>
                 This forged-origin *prefix* hijack is significantly less damaging than the forged-origin *subprefix* hijack.
-                AS 64496 legitimately originates 168.122.0.0/16 in BGP, so the hijacker AS 64511 is not presenting the *only* route to 168.122.0.0/16.
+                AS 64496 legitimately originates 192.168.0.0/16 in BGP, so the hijacker AS 64511 is not presenting the *only* route to 192.168.0.0/16.
                 Moreover, the path originated by AS 64511 is one hop longer than the path originated by the legitimate origin AS 64496.
                 As discussed in <xref target="LSG16"/>, this means that the hijacker will attract less traffic than he would have in the forged-origin *subprefix* hijack, where the hijacker presents the *only* route to the hijacked subprefix.
             </t>
@@ -306,11 +315,11 @@ One ideal place to implement the ROA related recommendations is in the user inte
 
                 <t>
                     Consider the following scenario prior to deployment of RPKI.
-					Suppose AS 64496 announced 168.122.0.0/16 and has a contract with a Distributed Denial of Service (DDoS) mitigation service provider that holds AS 64500.
-					Further, assume that the DDoS mitigation service contract applies to all IP addresses covered by 168.122.0.0/22.
-					When a DDoS attack is detected and reported by AS 64496, AS 64500 immediately originates 168.122.0.0/22, thus attracting all the DDoS traffic to itself.
+					Suppose AS 64496 announced 192.168.0.0/16 and has a contract with a Distributed Denial of Service (DDoS) mitigation service provider that holds AS 64500.
+					Further, assume that the DDoS mitigation service contract applies to all IP addresses covered by 192.168.0.0/22.
+					When a DDoS attack is detected and reported by AS 64496, AS 64500 immediately originates 192.168.0.0/22, thus attracting all the DDoS traffic to itself.
 					The traffic is scrubbed at AS 64500 and then sent back to AS 64496 over a backhaul data link.
-					Notice that, during a DDoS attack, the DDoS mitigation service provider AS 64500 originates a /22 prefix that is longer than AS 64496's /16 prefix, and so all the traffic (destined to addresses in 168.122.0.0/22) that normally goes to AS 64496 goes to AS 64500 instead.
+					Notice that, during a DDoS attack, the DDoS mitigation service provider AS 64500 originates a /22 prefix that is longer than AS 64496's /16 prefix, and so all the traffic (destined to addresses in 192.168.0.0/22) that normally goes to AS 64496 goes to AS 64500 instead.
                 </t>
 
                 <t>
@@ -323,10 +332,10 @@ One ideal place to implement the ROA related recommendations is in the user inte
                     Therefore, the RPKI should have two ROAs: one for AS 64496 and one for AS 64500.
                     <list>
                         <t>
-                            ROA:(168.122.0.0/16,168.122.225.0/24, AS 64496)
+                            ROA:(192.168.0.0/16,192.168.225.0/24, AS 64496)
                         </t>
                         <t>
-                            ROA:(168.122.0.0/22, AS 64500)
+                            ROA:(192.168.0.0/22, AS 64500)
                         </t>
                     </list>
                     Neither ROA uses the maxLength attribute.
@@ -336,34 +345,34 @@ One ideal place to implement the ROA related recommendations is in the user inte
 
                 <t>
 					Notice, however, that this scheme does not come without risks.
-					Namely, all IP addresses in 168.122.0.0/22 are vulnerable to a forged-origin subprefix hijack during normal operations, when the /22 prefix is not originated.
-					(The hijacker AS 64511 would send the BGP announcement "168.122.0.0/22: AS 64511, AS 64500", falsely claiming that AS 64511 is a neighbor of AS 64500 and falsely claiming that AS 64500 originates 168.122.0.0/22.)
+					Namely, all IP addresses in 192.168.0.0/22 are vulnerable to a forged-origin subprefix hijack during normal operations, when the /22 prefix is not originated.
+					(The hijacker AS 64511 would send the BGP announcement "192.168.0.0/22: AS 64511, AS 64500", falsely claiming that AS 64511 is a neighbor of AS 64500 and falsely claiming that AS 64500 originates 192.168.0.0/22.)
                 </t>
 
                 <t>
                     In some situations, the DDoS mitigation service at AS 64500 might want to limit the amount of DDoS traffic that it attracts and scrubs.
-                    Suppose that a DDoS attack only targets IP addresses in 168.122.0.0/24.
+                    Suppose that a DDoS attack only targets IP addresses in 192.168.0.0/24.
                     Then, the DDoS mitigation service at AS 64500 only wants to attract the traffic designated for the /24 prefix that is under attack, but not the entire /22 prefix.
                     To allow for this, the RPKI should have two ROAs: one for AS 64496 and one for AS 64500.
                     <list>
                         <t>
-                            ROA:(168.122.0.0/16,168.122.225.0/24, AS 64496)
+                            ROA:(192.168.0.0/16,192.168.225.0/24, AS 64496)
                         </t>
                         <t>
-                            ROA:(168.122.0.0/22-24, AS 64500)
+                            ROA:(192.168.0.0/22-24, AS 64500)
                         </t>
                     </list>
                 </t>
                 <t>
-                    The second ROA uses the maxLength attribute because it is designed to explicitly enable AS 64500 to originate *any* /24 subprefix of 168.122.0.0/22.
+                    The second ROA uses the maxLength attribute because it is designed to explicitly enable AS 64500 to originate *any* /24 subprefix of 192.168.0.0/22.
                 </t>
                 <t>
                     As before, the second ROA is not "minimal" because it contains prefixes that are not originated by anyone in BGP during normal operations.
-                    As before, all IP addresses in 168.122.0.0/22 are vulnerable to a forged-origin subprefix hijack during normal operations, when the /22 prefix is not originated.
+                    As before, all IP addresses in 192.168.0.0/22 are vulnerable to a forged-origin subprefix hijack during normal operations, when the /22 prefix is not originated.
                 </t>
                 <t>
                     The use of maxLength in this second ROA also comes with an additional risk.
-					While it permits the DDoS mitigation service at AS 64500 to originate prefix 168.122.0.0/24 during a DDoS attack in that space, it also makes the  *other* /24 prefixes covered by the /22 prefix (i.e., 168.122.1.0/24, 168.122.2.0/24, 168.122.3.0/24) vulnerable to a forged-origin subprefix attacks.
+					While it permits the DDoS mitigation service at AS 64500 to originate prefix 192.168.0.0/24 during a DDoS attack in that space, it also makes the  *other* /24 prefixes covered by the /22 prefix (i.e., 192.168.1.0/24, 192.168.2.0/24, 192.168.3.0/24) vulnerable to a forged-origin subprefix attacks.
                 </t>
                 <t>
                     There is another entirely different way of managing ROAs for DDoS mitigation service.
@@ -412,6 +421,7 @@ One ideal place to implement the ROA related recommendations is in the user inte
 -->
 
     <references title="Normative References">
+        <?rfc include="reference.RFC.1918.xml"?>
         <?rfc include="reference.RFC.2119.xml"?>
         <?rfc include="reference.RFC.4271.xml"?>
         <?rfc include="reference.RFC.6480.xml"?>
