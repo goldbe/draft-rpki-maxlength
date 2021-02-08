@@ -367,9 +367,9 @@
             <t>
                 Network measurements have shown that 12% of the IP prefixes authorized in ROAs have
                 a maxLength longer than their prefix length.
-                The vast majority of these (84%) are vulnerable to forged-origin subprefix hijacks.
-                These subprefixes are not announced in BGP by the legitimate AS. Even large
-                providers are vulnerable to these attacks.
+                Of these, the vast majority (84%) are non-minimal, as they include subprefixes that
+                are not announced in BGP by the legitimate AS, and are thus vulnerable to forged
+                origin subprefix hijacks.
                 See <xref target="GSG17"/> for details.
             </t>
 
