@@ -413,18 +413,50 @@
                 have minimal impact on the performance of the RPKI ecosystem.
             </t>
 
-            <section title="Creation of ROAs Facilitating DDoS Mitigation Service" anchor="nominimal">
+            <section title="Facilitating Ad-hoc Routing Changes and DDoS Mitigation" anchor="nominimal">
 
                 <t>
-                    Sometimes, it is not possible to use a "minimal ROA", because an operator wants
-                    to issue a ROA that includes an IP prefix that is sometimes (but not always)
-                    originated in BGP.
+                    Operational requirements may require that a route for an IP prefix be
+                    originated on an ad-hoc basis, with little or no prior warning.
+                    An example of such a situation arises where an operator wishes to make use of
+                    DDoS mitigation services that use BGP to redirect traffic via a "scrubbing
+                    center".
                 </t>
 
                 <t>
-                    In this case, the ROA SHOULD include (1) the set of IP prefixes that are always
-                    originated in BGP, and (2) the set IP prefixes that are sometimes, but not
-                    always, originated in BGP.
+                    In order to ensure that such ad-hoc routing changes are effective, there should
+                    exist a ROA validating the new route. However a difficulty arises due to the
+                    fact that newly created objects in the RPKI are made visible to relying parties
+                    considerabley more slowly than routing updates in BGP.
+                </t>
+
+                <t>
+                    Ideally, it would not be necessary to pre-create the ROA which validates the
+                    ad-hoc route, and instead create it "on-the-fly" as required. However, this is
+                    practical only if the latency imposed by the propagation of RPKI data is
+                    guaranteed to be within acceptable limits in the circumstances.
+                    For time-critical interventions such as responding to a DDoS attack, this is
+                    unlikely to be the case.
+                </t>
+
+                <t>
+                    Thus, the ROA in question will usually need to be created well in advance of
+                    the routing intervention, but such a ROA will be non-minimal, since it includes
+                    an IP prefix that is sometimes (but not always) originated in BGP.
+                </t>
+
+                <t>
+                    In this case, the ROA SHOULD include:
+                    <list>
+                        <t>
+                            (1) the set of IP prefixes that are always
+                                originated in BGP, and
+                        </t>
+                        <t>
+                            (2) the set IP prefixes that are sometimes, but not always, originated
+                                in BGP.
+                        </t>
+                    </list>
                     The ROA SHOULD NOT include any IP prefixes that the operator knows will not be
                     originated in BGP.
                     Whenever possible, the ROA SHOULD also avoid the use of the maxLength
@@ -450,6 +482,9 @@
                     64500 originates a /22 prefix that is longer than AS 64496's /16 prefix, and so
                     all the traffic (destined to addresses in 192.168.0.0/22) that normally goes to
                     AS 64496 goes to AS 64500 instead.
+                    In some deployments, the origination of the /22 route is performed by AS 64496
+                    and announced only to AS 64500, which then announces transit for that prefix.
+                    This variation does not change the properties considered here.
                 </t>
 
                 <t>
@@ -524,24 +559,6 @@
                     192.168.0.0/24 during a DDoS attack in that space, it also makes the  *other*
                     /24 prefixes covered by the /22 prefix (i.e., 192.168.1.0/24, 192.168.2.0/24,
                     192.168.3.0/24) vulnerable to a forged-origin subprefix attacks.
-                </t>
-                <t>
-                    There is another entirely different way of managing ROAs for DDoS mitigation
-                    service.
-                    In this scheme, ROAs are not pre-created for the DDoS mitigation service but
-                    are created on the fly when the DDoS mitigation service request is made.
-                    Further, the BGP announcements for actuating the DDoS mitigation service will
-                    not be made until the ROAs propagate fully through the RPKI system.
-                    Hence, there would be a latency involved in DDoS mitigation service going into
-                    effect.
-                    This method would be effective only if the latency is guaranteed to be within
-                    some acceptable limit.
-                    This calls for mechanisms to be in place for RPKI data propagation to occur
-                    very fast.
-                    Thus, this scheme of managing ROAs for DDoS mitigation service helps with
-                    eliminating the attack surface for prefixes requiring this service.
-                    However, the viability of this scheme depends on future work related to
-                    achieving fast ROA propagation in the global RPKI system.
                 </t>
             </section>
     </section>
