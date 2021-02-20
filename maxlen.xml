@@ -173,7 +173,19 @@
         <section title="Forged-Origin Subprefix Hijack" anchor="hijack">
 
             <t>
-                A detailed description and discussion of forged-origin subprefix hijack are presented here, especially considering the case when the subprefix is not announced in BGP. The forged-origin subprefix hijack is relevant to a scenario in which (1) the RPKI <xref target="RFC6480"/> is deployed, and (2) routers use RPKI origin validation to drop invalid routes <xref target="RFC6811" />, but (3) BGPsec <xref target="RFC8205"/> (or any similar method to validate the truthfulness of the BGP AS_PATH attribute) is not deployed.
+                A detailed description and discussion of forged-origin subprefix hijacks are presented here, especially considering the case when the subprefix is not announced in BGP.
+                The forged-origin subprefix hijack is relevant to a scenario in which:
+                <list>
+                    <t>
+                        (1) the RPKI <xref target="RFC6480"/> is deployed, and
+                    </t>
+                    <t>
+                        (2) routers use RPKI origin validation to drop invalid routes <xref target="RFC6811" />, but
+                    </t>
+                    <t>
+                        (3) BGPsec <xref target="RFC8205"/> (or any similar method to validate the truthfulness of the BGP AS_PATH attribute) is not deployed.
+                    </t>
+                </list>
                 Note that this set of assumptions accurately describes a substantial, and growing, number of large Internet networks at the time writing.
             </t>
 
@@ -185,7 +197,39 @@
                 Consider the IP prefix 192.168.0.0/16 which is allocated to an organization that also operates AS 64496.
                 In BGP, AS 64496 originates the IP prefix 192.168.0.0/16 as well as its subprefix 192.168.225.0/24.
                 Therefore, the RPKI should contain a ROA authorizing AS 64496 to originate these two IP prefixes.
-                That is, the ROA should be
+            </t>
+
+            <t>
+                Suppose, however, the organization issues and publishes a ROA including a maxLength value of 24:
+                <list>
+                    <t>
+                        ROA:(192.168.0.0/16-24, AS 64496)
+                    </t>
+                </list>
+                We refer to the above as a "loose ROA" since it authorizes AS 64496 to originate any subprefix of 192.168.0.0/16 up to and including length /24, rather than only those prefixes that are intended to be announced in BGP.
+            </t>
+
+            <t>
+                Because AS 64496 only originates two prefixes in BGP: 192.168.0.0/16 and 192.168.255.0/24, all other prefixes authorized by the "loose ROA" (for instance, 192.168.0.0/24), are vulnerable to the following forged-origin subprefix hijack <xref target="RFC7115"/> <xref target="GCHSS" />:
+                <list>
+                    <t>
+                        The  hijacker AS 64511 sends a BGP announcement "192.168.0.0/24: AS 64511, AS 64496", falsely claiming that AS 64511 is a neighbor of AS 64496 and falsely claiming that AS 64496 originates the IP prefix 192.168.0.0/24.
+                        In fact, the IP prefix 192.168.0.0/24 is not originated by AS 64496.
+                    </t>
+                    <t>
+                        The hijacker's BGP announcement is valid according to the RPKI, since the ROA (192.168.0.0/16-24, AS 64496) authorizes AS 64496 to originate BGP routes for 192.168.0.0/24.
+                    </t>
+                    <t>
+                        Because AS 64496 does not actually originate a route for 192.168.0.0/24, the hijacker's route is the *only* route to the 192.168.0.0/24.
+                        Longest-prefix-match routing ensures that the hijacker's route to the subprefix 192.168.0.0/24 is always preferred over the legitimate route to 192.168.0.0/16 originated by AS 64496.
+                    </t>
+                </list>
+                Thus, the hijacker's route propagates through the Internet, the traffic destined for IP addresses in 192.168.0.0/24 will be delivered to the hijacker.
+            </t>
+
+            <t>
+                The forged-origin *subprefix* hijack would have failed if a "minimal ROA" described below was used instead of the "loose ROA".
+                In this example, a "minimal ROA" would be:
                 <list>
                     <t>
                         ROA:(192.168.0.0/16, 192.168.225.0/24, AS 64496)
@@ -195,57 +239,20 @@
             </t>
 
             <t>
-                Now suppose an attacking AS 64511 originates a BGP announcement for a subprefix 192.168.0.0/24.
-                This is a standard "subprefix hijack".
-            </t>
-
-            <t>
-                In the absence of the minimal ROA above, AS 64511 could intercept traffic for the addresses in 192.168.0.0/24.
-                This is because routers perform a longest-prefix match when deciding where to forward IP packets, and 192.168.0.0/24 originated by AS 64511 is a longer prefix than 192.168.0.0/16 originated by AS 64496.
-            </t>
-
-            <t>
-                However, the minimal ROA renders AS 64511's BGP announcement invalid, because (1) this ROA "covers" the attacker's announcement (since 192.168.0.0/24 is a subprefix of 192.168.0.0/16), and (2) there is no ROA "matching" the attacker's announcement (there is no ROA for AS 64511 and IP prefix 192.168.0.0/24) <xref target="RFC6811" />.
+                The "minimal ROA" renders AS 64511's BGP announcement invalid, because:
+                <list>
+                    <t>
+                        (1) this ROA "covers" the attacker's announcement (since 192.168.0.0/24 is a subprefix of 192.168.0.0/16), and
+                    </t>
+                    <t>
+                        (2) there is no ROA "matching" the attacker's announcement (there is no ROA for AS 64511 and IP prefix 192.168.0.0/24) <xref target="RFC6811" />.
+                    </t>
+                </list>
                 If routers ignore invalid BGP announcements, the minimal ROA above ensures that the subprefix hijack will fail.
             </t>
 
             <t>
-                Now suppose that the "minimal ROA" was replaced with a "loose ROA" that used maxLength as a shorthand for set of IP prefixes that AS 64496 is authorized to originate.
-                The "loose ROA" would be:
-                <list>
-                    <t>
-                        ROA:(192.168.0.0/16-24, AS 64496)
-                    </t>
-                </list>
-                This "loose ROA" authorizes AS 64496 to originate any subprefix of 192.168.0.0/16, up to length /24. That is, AS 64496 could originate 192.168.225.0/24 as well as all of 192.168.0.0/17, 192.168.128.0/17, ..., 192.168.255.0/24 but not 192.168.0.0/25.
-            </t>
-
-            <t>
-                However, AS 64496 only originates two prefixes in BGP: 192.168.0.0/16 and 192.168.255.0/24.
-                This means that all other prefixes authorized by the "loose ROA" (for instance, 192.168.0.0/24), are vulnerable to the following forged-origin subprefix hijack <xref target="RFC7115"/> <xref target="GCHSS" />:
-            </t>
-
-            <t>
-                <list>
-                    <t>
-                        The  hijacker AS 64511 sends a BGP announcement "192.168.0.0/24: AS 64511, AS 64496", falsely claiming that AS 64511 is a neighbor of AS 64496 and falsely claiming that AS 64496 originates the IP prefix 192.168.0.0/24.
-                        In fact, the IP prefix 192.168.0.0/24 is not originated by AS 64496.
-                    </t>
-                </list>
-            </t>
-
-            <t>
-                The hijacker's BGP announcement is valid according to the RPKI, since the ROA (192.168.0.0/16-24, AS 64496) authorizes AS 64496 to originate BGP routes for 192.168.0.0/24.
-                Because AS 64496 does not actually originate a route for 192.168.0.0/24, the hijacker's route is the *only* route to the 192.168.0.0/24.
-                Longest-prefix-match routing ensures that the hijacker's route to the subprefix 192.168.0.0/24 is always preferred over the legitimate route to 192.168.0.0/16 originated by AS 64496.
-                Thus, the hijacker's route propagates through the Internet, the traffic destined for IP addresses in 192.168.0.0/24 will be delivered to the hijacker.
-            </t>
-            <t>
-                The forged-origin *subprefix* hijack would have failed if the "minimal ROA" described above was used instead of the "loose ROA".
-                If the "minimal ROA" had been used instead, the attacker would be forced to launch a forged-origin *prefix* hijack in order to attract traffic, as follows:
-            </t>
-
-            <t>
+                Thus, if a "minimal ROA" had been used, the attacker would be forced to launch a forged-origin *prefix* hijack in order to attract traffic, as follows:
                 <list>
                     <t>
                         The  hijacker AS 64511 sends a BGP announcement "192.168.0.0/16: AS 64511, AS 64496", falsely claiming that AS 64511 is a neighbor of AS 64496.
@@ -254,9 +261,15 @@
             </t>
 
             <t>
-                This forged-origin *prefix* hijack is significantly less damaging than the forged-origin *subprefix* hijack.
-                AS 64496 legitimately originates 192.168.0.0/16 in BGP, so the hijacker AS 64511 is not presenting the *only* route to 192.168.0.0/16.
-                Moreover, the path originated by AS 64511 is one hop longer than the path originated by the legitimate origin AS 64496.
+                This forged-origin *prefix* hijack is significantly less damaging than the forged-origin *subprefix* hijack:
+                <list>
+                    <t>
+                        AS 64496 legitimately originates 192.168.0.0/16 in BGP, so the hijacker AS 64511 is not presenting the *only* route to 192.168.0.0/16.
+                    </t>
+                    <t>
+                        Moreover, the path originated by AS 64511 is one hop longer than the path originated by the legitimate origin AS 64496.
+                    </t>
+                </list>
                 As discussed in <xref target="LSG16"/>, this means that the hijacker will attract less traffic than he would have in the forged-origin *subprefix* hijack, where the hijacker presents the *only* route to the hijacked subprefix.
             </t>
 
