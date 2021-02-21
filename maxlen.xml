@@ -163,22 +163,6 @@
                 designers and/or providers of such user interfaces SHOULD provide warnings to draw
                 the user's attention to the risks of using the maxLength attribute.
             </t>
-<!--
-            <t>
-                The recommendations in this document clarify and extend the following
-                recommendation from <xref target="RFC7115"/>:
-                <list>
-                    <t>
-                        One advantage of minimal ROA length is that the forged-origin attack does
-                        not work for sub-prefixes that are not covered by overly long max length.
-                        For example, if, instead of 10.0.0.0/16-24, one issues 10.0.0.0/16 and 10.0
-                        42.0/24, a forged-origin attack cannot succeed against 10.0.666.0/24.
-                        They must attack the whole /16, which is more likely to be noticed because
-                        of its size.
-                    </t>
-                </list>
-            </t>
--->
 
             <t>
                 Best current practices described in this document require no changes to the RPKI
@@ -572,25 +556,33 @@
             /48 in IPv6; possibly even /32 (IPv4) and /128 (IPv6)) are announced in BGP.
             These announcements are tagged with a BLACKHOLE Community <xref target="RFC7999"/>.
             It is obviously not desirable to use large maxlength or include any such highly
-            specific prefixes in the ROAs to accommodate destination-based RTBH filtering.
-            Therefore, operators SHOULD accommodate this scenario by accepting BGP announcements
-            tagged with BLACKHOLE Community only if the following conditions are met:
-            <list>
+            specific prefixes in the ROAs to accommodate destination-based RTBH filtering, for the
+            reasons set out above.
+        </t>
+
+        <t>
+            As a result, RPKI based route origin validation <xref target="RFC6811"/> is a poor fit
+            for the validation of RTBH routes.
+            Specification of new procedures to address this use case through the use of the RPKI is
+            outside the scope of this document.
+        </t>
+        
+        <t>
+            Therefore:
+            <list style="symbols">
                 <t>
-                    (1) the announcement is received on a BGP session on which there is agreement
-                        to accept BLACKHOLE Community, and
+                    Operators SHOULD NOT create non-minimal ROAs (either by creating additional
+                    ROAs, or through the use of maxLength) for the purpose of advertising RTBH
+                    routes; and
                 </t>
                 <t>
-                    (2) the origin AS number in the announcement matches the neighbor (customer) AS
-                        number associated with the BGP session, and
-                </t>
-                <t>
-                    (3) the prefix in the announcement is subsumed by a less-specific prefix that
-                    the neighbor (customer) AS is authorized to announce per RPKI/ROA.
+                    Operators providing a means for operators of neighboring autonomous systems to
+                    advertise RTBH routes via BGP MUST NOT make the creation of non-minimal ROAs
+                    a pre-requisite for its use.
                 </t>
             </list>
-            Additional details can be found in Section 5.5 in [NIST-800-189].
         </t>
+
     </section>
 
         <section anchor="Acknowledgments" title="Acknowledgments">
@@ -605,17 +597,6 @@
     </middle>
 
     <back>
-        <!-- References Section -->
-
-<!--
-     Section 4.7f of [RFC2223bis] specifies the requirements for the
-     references sections.  In particular, there MUST be separate lists of
-     normative and informative references, each in a separate section.
-     The style SHOULD follow that of recently published RFCs.
-
-     In general, each normative reference SHOULD reference the most recent
-     version of the specification in question.
--->
 
     <references title="Normative References">
         <?rfc include="reference.RFC.1918.xml"?>
