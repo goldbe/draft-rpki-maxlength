@@ -133,7 +133,7 @@
                 that use the maxLength attribute, are vulnerable to a forged-origin subprefix
                 hijack <xref target="HARMFUL" />.
                 The forged-origin prefix or subprefix hijack involves inserting the legitimate AS 
-                as specified in the ROA) as the origin AS in the AS_PATH, and can be launched
+                as specified in the ROA as the origin AS in the AS_PATH, and can be launched
                 against any IP prefix/subprefix that has a ROA. Consider a prefix/subprefix that
                 has a ROA but is unused, i.e., not announced in BGP by a legitimate AS. A forged
                 origin hijack involving such a prefix/subprefix can propagate widely throughout the
@@ -155,7 +155,7 @@
                 document also discusses creation of ROAs for facilitating the use of Distributed
                 Denial of Service (DDoS) mitigation services. Considerations related to ROAs and
                 origin validation in the context of destination-based Remote Triggered Black Hole 
-                RTBH) filtering are also highlighted.
+                (RTBH) filtering are also highlighted.
             </t>
             <t>
                 One ideal place to implement the ROA related recommendations is in the user
@@ -268,7 +268,7 @@
 
             <t>
                 Because AS 64496 only originates two prefixes in BGP: 192.168.0.0/16 and
-                192.168.25.0/24, all other prefixes authorized by the "loose ROA" (for instance,
+                192.168.225.0/24, all other prefixes authorized by the "loose ROA" (for instance,
                 192.168.0.0/24), are vulnerable to the following forged-origin subprefix hijack
                 <xref target="RFC7115"/> <xref target="GCHSS" />:
                 <list>
@@ -520,7 +520,7 @@
                     subprefix hijack during normal operations, when the /22 prefix is not
                     originated.
                     (The hijacker AS 64511 would send the BGP announcement "192.168.0.0/22: 
-                    AS 6451, AS 64500", falsely claiming that AS 64511 is a neighbor of AS 64500
+                    AS 64511, AS 64500", falsely claiming that AS 64511 is a neighbor of AS 64500
                     and falsely claiming that AS 64500 originates 192.168.0.0/22.)
                 </t>
 
