@@ -9,7 +9,7 @@
 <?rfc comments="yes"?>
 <?rfc inline="yes"?>
 
-<rfc category="bcp" docName="draft-ietf-sidrops-rpkimaxlen-05" ipr="trust200902">
+<rfc category="bcp" docName="draft-ietf-sidrops-rpkimaxlen-06" ipr="trust200902">
     <front>
         <title abbrev="RPKI maxLength">The Use of Maxlength in the RPKI</title>
 
@@ -56,15 +56,15 @@
         </author>
 
         <author fullname="Job Snijders" initials="J." surname="Snijders">
-            <organization abbrev="NTT">NTT Communications</organization>
+            <organization>Fastly</organization>
             <address>
                 <postal>
-                    <street>Theodorus Majofskistraat 100</street>
-                    <code>1065 SZ</code>
+                    <street/>
+                    <code/>
                     <city>Amsterdam</city>
-                    <country>The Netherlands</country>
+                    <country>Netherlands</country>
                 </postal>
-                <email>job@ntt.net</email>
+                <email>job@fastly.com</email>
             </address>
         </author>
 
