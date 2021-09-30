@@ -180,9 +180,10 @@
 
             <section title=" Documentation Prefixes">
                 <t>
-                    The documentation prefixes recommended in [RFC5737] are insufficient for use as
-                    example prefixes in this document. Therefore, this document uses 
-                    <xref target="RFC1918" /> address space for constructing example prefixes.
+                    The documentation prefixes recommended in <xref target="RFC5737"/> are
+                    insufficient for use as example prefixes in this document. Therefore, this
+                    document uses <xref target="RFC1918" /> address space for constructing example
+                    prefixes.
                 </t>
             </section>
 
@@ -545,6 +546,45 @@
                     192.168.3.0/24) vulnerable to a forged-origin subprefix attacks.
                 </t>
             </section>
+
+            <section title="Defensive de-aggregation in response to prefix hijacks" anchor="deaggr">
+                <t>
+                    In responding to certain classes of prefix hijack, in particular the
+                    forged-origin subprefix hijack described above, it may be desirable for the
+                    victim to perform "defensive de-aggregation". That is: to begin originating
+                    more-specific prefixes in order to compete with the hijack routes for selection
+                    as best path in networks that are not performing RPKI-based route origin
+                    validation <xref target="RFC6811"/>.
+                </t>
+                <t>
+                    In some topologies, where at least one AS on every path between the victim
+                    and hijacker filters ROV invalid prefixes, it may be the case that the
+                    existence of a minimal ROA issued by the victim prevents the defensive more-
+                    specific prefixes being propagated to the networks topologically close to the
+                    attacker, thus hampering the effectiveness of this response.
+                </t>
+                <t>
+                    Nevertheless, this document recommends that where possible, network operators
+                    publish minimal ROAs even in the face of this risk. This is because:
+                    <list>
+                        <t>
+                            Minimal ROAs offer the best possible protection against the immediate
+                            impact of such an attack, rendering the need for such a response less
+                            likely;
+                        </t>
+                        <t>
+                            Increasing ROV adoption by network operators will, over time, decrease
+                            the size of the neighborhoods in which this risk exists; and
+                        </t>
+                        <t>
+                            Other methods for reducing the size of such neighborhoods are available
+                            to potential victims, such as establishing direct eBGP adjacencies with
+                            networks from whom the defensive routes would otherwise be hidden.
+                        </t>
+                    </list>
+                </t>
+            </section>
+
     </section>
 
     <section title="ROAs and Origin Validation for RTBH Filtering Scenario" anchor="rtbh">
@@ -672,6 +712,7 @@
 
 
 
+        <?rfc include="reference.RFC.5737.xml"?>
         <?rfc include="reference.RFC.6907.xml"?>
         <?rfc include="reference.RFC.7115.xml"?>
         <?rfc include="reference.RFC.7999.xml"?>
