@@ -9,7 +9,7 @@
 <?rfc comments="yes"?>
 <?rfc inline="yes"?>
 
-<rfc category="bcp" docName="draft-ietf-sidrops-rpkimaxlen-06" ipr="trust200902">
+<rfc category="bcp" docName="draft-ietf-sidrops-rpkimaxlen-08" ipr="trust200902">
     <front>
         <title abbrev="RPKI maxLength">The Use of Maxlength in the RPKI</title>
 
@@ -566,7 +566,7 @@
                 <t>
                     Nevertheless, this document recommends that where possible, network operators
                     publish minimal ROAs even in the face of this risk. This is because:
-                    <list>
+                    <list style="symbols">
                         <t>
                             Minimal ROAs offer the best possible protection against the immediate
                             impact of such an attack, rendering the need for such a response less
