@@ -587,7 +587,7 @@
 
     </section>
 
-    <section title="ROAs and Origin Validation for RTBH Filtering Scenario" anchor="rtbh">
+    <section title="Considerations for RTBH Filtering Scenarios" anchor="rtbh">
         <t>
             Considerations related to ROAs and origin validation <xref target="RFC6811"/> for the
             case of destination-based Remote Triggered Black Hole (RTBH) filtering are addressed
