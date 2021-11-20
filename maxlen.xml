@@ -221,7 +221,7 @@
                     </t>
                 </list>
                 Note that this set of assumptions accurately describes a substantial, and growing,
-                number of large Internet networks at the time writing.
+                number of large Internet networks at the time of writing.
             </t>
 
             <t>
@@ -366,7 +366,7 @@
             </t>
         </section>
 
-        <section title="Recommendations about Minimal ROAs and maxLength">
+        <section title="Recommendations about Minimal ROAs and maxLength" anchor="recommendations">
 
             <t>
                 Operators SHOULD use "minimal ROAs" whenever possible.
@@ -398,6 +398,15 @@
                 have minimal impact on the performance of the RPKI ecosystem.
             </t>
 
+            <t>
+                Operators that have existing ROAs published in the RPKI system SHOULD perform a
+                review of such objects, especially where they make use of the maxLength attribute,
+                to ensure that the included prefixes are "minimal" with respect to the current BGP
+                origination and routing policies, and replace the published ROAs as necessary.
+                Such an exercise SHOULD be repeated whenever the operator makes changes to either
+                policy.
+            </t>
+
             <section title="Facilitating Ad-hoc Routing Changes and DDoS Mitigation" anchor="nominimal">
 
                 <t>
@@ -412,7 +421,7 @@
                     In order to ensure that such ad-hoc routing changes are effective, there should
                     exist a ROA validating the new route. However a difficulty arises due to the
                     fact that newly created objects in the RPKI are made visible to relying parties
-                    considerabley more slowly than routing updates in BGP.
+                    considerably more slowly than routing updates in BGP.
                 </t>
 
                 <t>
@@ -438,8 +447,8 @@
                                 originated in BGP, and
                         </t>
                         <t>
-                            (2) the set IP prefixes that are sometimes, but not always, originated
-                                in BGP.
+                            (2) the of set IP prefixes that are sometimes, but not always,
+                                originated in BGP.
                         </t>
                     </list>
                     The ROA SHOULD NOT include any IP prefixes that the operator knows will not be
@@ -625,14 +634,35 @@
 
     </section>
 
-        <section anchor="Acknowledgments" title="Acknowledgments">
-            <t>
-                The authors would like to thank the following people for their review and
-                contributions to this document: Omar Sagga (Boston University) and Aris
-                Lambrianidis (AMS-IX). Thanks are also due to Matthias Waehlisch (Free University
-                of Berlin) for comments and suggestions.
-            </t>
-        </section>
+    <section title="Security Considerations" anchor="security-considerations">
+        <t>
+            This document makes recommendations regarding the use of RPKI based origin validation
+            as defined in <xref target="RFC6811"/>, and as such introduces no additional security
+            considerations beyond those set out therein.
+        </t>
+
+        <t>
+            The recommendations set out in this document, in particular those in
+            <xref target="recommendations"/>, involve trade-offs between operational agility and
+            security. Operators are encouraged to carefully review the issues highlighted in light
+            of their specific operational requirements. Failure to do so could, in the worst case,
+            result in a self-inflicted denial of service.
+        </t>
+    </section>
+
+    <section anchor="Acknowledgments" title="Acknowledgments">
+        <t>
+            The authors would like to thank the following people for their review and
+            contributions to this document: Omar Sagga (Boston University) and Aris
+            Lambrianidis (AMS-IX).
+            Thanks are also due to
+            Matthias Waehlisch (Free University of Berlin),
+            Ties de Kock (RIPE NCC),
+            and
+            Amreesh Phokeer (ISOC)
+            for comments and suggestions.
+        </t>
+    </section>
 
     </middle>
 
