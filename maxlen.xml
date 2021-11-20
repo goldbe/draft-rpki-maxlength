@@ -127,11 +127,11 @@
             </t>
 
             <t>
-                However, measurements of current RPKI deployments have found that use of the
-                maxLength in ROAs tends to lead to security problems.
-                Specifically, measurements have shown that 84% of the prefixes specified in ROAs
-                that use the maxLength attribute, are vulnerable to a forged-origin subprefix
-                hijack <xref target="HARMFUL" />.
+                However, measurements of RPKI deployments have found that use of the maxLength in
+                ROAs tends to lead to security problems.
+                In particular, measurements taken in June 2017 showed that 84% of the prefixes
+                specified in ROAs that use the maxLength attribute, were vulnerable to a
+                forged-origin subprefix hijack <xref target="HARMFUL" />.
                 The forged-origin prefix or subprefix hijack involves inserting the legitimate AS 
                 as specified in the ROA as the origin AS in the AS_PATH, and can be launched
                 against any IP prefix/subprefix that has a ROA. Consider a prefix/subprefix that
@@ -347,12 +347,12 @@
 
         </section>
 
-        <section title="Measurements of Today's RPKI">
+        <section title="Measurements of the RPKI">
 
             <t>
-                Network measurements have shown that 12% of the IP prefixes authorized in ROAs have
-                a maxLength longer than their prefix length.
-                Of these, the vast majority (84%) are non-minimal, as they include subprefixes that
+                Network measurements taken in June 2017 showed that 12% of the IP prefixes
+                authorized in ROAs have a maxLength longer than their prefix length.
+                Of these, the vast majority (84%) were non-minimal, as they include subprefixes that
                 are not announced in BGP by the legitimate AS, and are thus vulnerable to forged
                 origin subprefix hijacks.
                 See <xref target="GSG17"/> for details.
