@@ -352,9 +352,9 @@
             <t>
                 Network measurements taken in June 2017 showed that 12% of the IP prefixes
                 authorized in ROAs have a maxLength longer than their prefix length.
-                Of these, the vast majority (84%) were non-minimal, as they include subprefixes that
-                are not announced in BGP by the legitimate AS, and are thus vulnerable to forged
-                origin subprefix hijacks.
+                Of these, the vast majority (84%) were non-minimal, as they included subprefixes
+                that are not announced in BGP by the legitimate AS, and were thus vulnerable to
+                forged origin subprefix hijacks.
                 See <xref target="GSG17"/> for details.
             </t>
 
@@ -401,8 +401,9 @@
             <t>
                 Operators that have existing ROAs published in the RPKI system SHOULD perform a
                 review of such objects, especially where they make use of the maxLength attribute,
-                to ensure that the included prefixes are "minimal" with respect to the current BGP
-                origination and routing policies, and replace the published ROAs as necessary.
+                to ensure that the set of included prefixes is "minimal" with respect to the
+                current BGP origination and routing policies, and replace the published ROAs as
+                necessary.
                 Such an exercise SHOULD be repeated whenever the operator makes changes to either
                 policy.
             </t>
@@ -440,7 +441,7 @@
                 </t>
 
                 <t>
-                    In this case, the ROA SHOULD include:
+                    In this case, the ROA SHOULD include only:
                     <list>
                         <t>
                             (1) the set of IP prefixes that are always
@@ -453,8 +454,8 @@
                     </list>
                     The ROA SHOULD NOT include any IP prefixes that the operator knows will not be
                     originated in BGP.
-                    Whenever possible, the ROA SHOULD also avoid the use of the maxLength
-                    attribute unless doing so has no impact on the set of included prefixes.
+                    In general, the ROA SHOULD NOT make the use of the maxLength attribute unless
+                    doing so has no impact on the set of included prefixes.
                 </t>
 
                 <t>
