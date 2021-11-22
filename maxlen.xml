@@ -654,13 +654,15 @@
     <section anchor="Acknowledgments" title="Acknowledgments">
         <t>
             The authors would like to thank the following people for their review and
-            contributions to this document: Omar Sagga (Boston University) and Aris
-            Lambrianidis (AMS-IX).
-            Thanks are also due to
-            Matthias Waehlisch (Free University of Berlin),
-            Ties de Kock (RIPE NCC),
+            contributions to this document:
+            Omar Sagga
             and
-            Amreesh Phokeer (ISOC)
+            Aris Lambrianidis.
+            Thanks are also due to
+            Matthias Waehlisch,
+            Ties de Kock,
+            and
+            Amreesh Phokeer
             for comments and suggestions.
         </t>
     </section>
