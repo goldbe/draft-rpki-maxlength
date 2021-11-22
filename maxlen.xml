@@ -9,9 +9,9 @@
 <?rfc comments="yes"?>
 <?rfc inline="yes"?>
 
-<rfc category="bcp" docName="draft-ietf-sidrops-rpkimaxlen-08" ipr="trust200902">
+<rfc category="bcp" docName="draft-ietf-sidrops-rpkimaxlen-09" ipr="trust200902">
     <front>
-        <title abbrev="RPKI maxLength">The Use of Maxlength in the RPKI</title>
+        <title abbrev="RPKI maxLength">The Use of maxLength in the RPKI</title>
 
         <author fullname="Yossi Gilad" initials="Y." surname="Gilad">
             <organization>Hebrew University of Jerusalem</organization>
@@ -127,11 +127,11 @@
             </t>
 
             <t>
-                However, measurements of current RPKI deployments have found that use of the
-                maxLength in ROAs tends to lead to security problems.
-                Specifically, measurements have shown that 84% of the prefixes specified in ROAs
-                that use the maxLength attribute, are vulnerable to a forged-origin subprefix
-                hijack <xref target="HARMFUL" />.
+                However, measurements of RPKI deployments have found that use of the maxLength in
+                ROAs tends to lead to security problems.
+                In particular, measurements taken in June 2017 showed that 84% of the prefixes
+                specified in ROAs that use the maxLength attribute, were vulnerable to a
+                forged-origin subprefix hijack <xref target="HARMFUL" />.
                 The forged-origin prefix or subprefix hijack involves inserting the legitimate AS 
                 as specified in the ROA as the origin AS in the AS_PATH, and can be launched
                 against any IP prefix/subprefix that has a ROA. Consider a prefix/subprefix that
@@ -221,7 +221,7 @@
                     </t>
                 </list>
                 Note that this set of assumptions accurately describes a substantial, and growing,
-                number of large Internet networks at the time writing.
+                number of large Internet networks at the time of writing.
             </t>
 
             <t>
@@ -264,7 +264,7 @@
                         In fact, the IP prefix 192.168.0.0/24 is not originated by AS 64496.
                     </t>
                     <t>
-                        The hijacker's BGP announcement is valid according to the RPKI, since the
+                        The hijacker's BGP announcement is valid according to the RPKI since the
                         ROA (192.168.0.0/16-24, AS 64496) authorizes AS 64496 to originate BGP
                         routes for 192.168.0.0/24.
                     </t>
@@ -347,14 +347,14 @@
 
         </section>
 
-        <section title="Measurements of Today's RPKI">
+        <section title="Measurements of the RPKI">
 
             <t>
-                Network measurements have shown that 12% of the IP prefixes authorized in ROAs have
-                a maxLength longer than their prefix length.
-                Of these, the vast majority (84%) are non-minimal, as they include subprefixes that
-                are not announced in BGP by the legitimate AS, and are thus vulnerable to forged
-                origin subprefix hijacks.
+                Network measurements taken in June 2017 showed that 12% of the IP prefixes
+                authorized in ROAs have a maxLength longer than their prefix length.
+                Of these, the vast majority (84%) were non-minimal, as they included subprefixes
+                that are not announced in BGP by the legitimate AS, and were thus vulnerable to
+                forged origin subprefix hijacks.
                 See <xref target="GSG17"/> for details.
             </t>
 
@@ -366,12 +366,12 @@
             </t>
         </section>
 
-        <section title="Recommendations about Minimal ROAs and maxLength">
+        <section title="Recommendations about Minimal ROAs and maxLength" anchor="recommendations">
 
             <t>
                 Operators SHOULD use "minimal ROAs" whenever possible.
                 A minimal ROA contains only those IP prefixes that are actually originated by an AS
-                in BGP, and no other IP prefixes.
+                in BGP and no other IP prefixes.
                 (See <xref target="hijack"/> for an example.)
             </t>
 
@@ -398,6 +398,16 @@
                 have minimal impact on the performance of the RPKI ecosystem.
             </t>
 
+            <t>
+                Operators that have existing ROAs published in the RPKI system SHOULD perform a
+                review of such objects, especially where they make use of the maxLength attribute,
+                to ensure that the set of included prefixes is "minimal" with respect to the
+                current BGP origination and routing policies, and replace the published ROAs as
+                necessary.
+                Such an exercise SHOULD be repeated whenever the operator makes changes to either
+                policy.
+            </t>
+
             <section title="Facilitating Ad-hoc Routing Changes and DDoS Mitigation" anchor="nominimal">
 
                 <t>
@@ -412,7 +422,7 @@
                     In order to ensure that such ad-hoc routing changes are effective, there should
                     exist a ROA validating the new route. However a difficulty arises due to the
                     fact that newly created objects in the RPKI are made visible to relying parties
-                    considerabley more slowly than routing updates in BGP.
+                    considerably more slowly than routing updates in BGP.
                 </t>
 
                 <t>
@@ -431,21 +441,21 @@
                 </t>
 
                 <t>
-                    In this case, the ROA SHOULD include:
+                    In this case, the ROA SHOULD include only:
                     <list>
                         <t>
                             (1) the set of IP prefixes that are always
                                 originated in BGP, and
                         </t>
                         <t>
-                            (2) the set IP prefixes that are sometimes, but not always, originated
-                                in BGP.
+                            (2) the set of IP prefixes that are sometimes, but not always,
+                                originated in BGP.
                         </t>
                     </list>
                     The ROA SHOULD NOT include any IP prefixes that the operator knows will not be
                     originated in BGP.
-                    Whenever possible, the ROA SHOULD also avoid the use of the maxLength
-                    attribute unless doing so has no impact on the set of included prefixes.
+                    In general, the ROA SHOULD NOT make use of the maxLength attribute unless doing
+                    so has no impact on the set of included prefixes.
                 </t>
 
                 <t>
@@ -595,7 +605,7 @@
             In RTBH filtering, highly specific prefixes (greater than /24 in IPv4 and greater than
             /48 in IPv6; possibly even /32 (IPv4) and /128 (IPv6)) are announced in BGP.
             These announcements are tagged with a BLACKHOLE Community <xref target="RFC7999"/>.
-            It is obviously not desirable to use large maxlength or include any such highly
+            It is obviously not desirable to use large maxLength or include any such highly
             specific prefixes in the ROAs to accommodate destination-based RTBH filtering, for the
             reasons set out above.
         </t>
@@ -625,14 +635,35 @@
 
     </section>
 
-        <section anchor="Acknowledgments" title="Acknowledgments">
-            <t>
-                The authors would like to thank the following people for their review and
-                contributions to this document: Omar Sagga (Boston University) and Aris
-                Lambrianidis (AMS-IX). Thanks are also due to Matthias Waehlisch (Free University
-                of Berlin) for comments and suggestions.
-            </t>
-        </section>
+    <section title="Security Considerations" anchor="security-considerations">
+        <t>
+            This document makes recommendations regarding the use of RPKI based origin validation
+            as defined in <xref target="RFC6811"/>, and as such introduces no additional security
+            considerations beyond those set out therein.
+        </t>
+
+        <t>
+            The recommendations set out in this document, in particular those in
+            <xref target="recommendations"/>, involve trade-offs between operational agility and
+            security. Operators are encouraged to carefully review the issues highlighted in light
+            of their specific operational requirements. Failure to do so could, in the worst case,
+            result in a self-inflicted denial of service.
+        </t>
+    </section>
+
+    <section anchor="Acknowledgments" title="Acknowledgments">
+        <t>
+            The authors would like to thank the following people for their review and
+            contributions to this document: Omar Sagga (Boston University) and Aris
+            Lambrianidis (AMS-IX).
+            Thanks are also due to
+            Matthias Waehlisch (Free University of Berlin),
+            Ties de Kock (RIPE NCC),
+            and
+            Amreesh Phokeer (ISOC)
+            for comments and suggestions.
+        </t>
+    </section>
 
     </middle>
 
