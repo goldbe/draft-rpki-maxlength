@@ -11,7 +11,7 @@
 
 <rfc category="bcp" docName="draft-ietf-sidrops-rpkimaxlen-09" ipr="trust200902">
     <front>
-        <title abbrev="RPKI maxLength">The Use of Maxlength in the RPKI</title>
+        <title abbrev="RPKI maxLength">The Use of maxLength in the RPKI</title>
 
         <author fullname="Yossi Gilad" initials="Y." surname="Gilad">
             <organization>Hebrew University of Jerusalem</organization>
@@ -264,7 +264,7 @@
                         In fact, the IP prefix 192.168.0.0/24 is not originated by AS 64496.
                     </t>
                     <t>
-                        The hijacker's BGP announcement is valid according to the RPKI, since the
+                        The hijacker's BGP announcement is valid according to the RPKI since the
                         ROA (192.168.0.0/16-24, AS 64496) authorizes AS 64496 to originate BGP
                         routes for 192.168.0.0/24.
                     </t>
@@ -371,7 +371,7 @@
             <t>
                 Operators SHOULD use "minimal ROAs" whenever possible.
                 A minimal ROA contains only those IP prefixes that are actually originated by an AS
-                in BGP, and no other IP prefixes.
+                in BGP and no other IP prefixes.
                 (See <xref target="hijack"/> for an example.)
             </t>
 
@@ -448,14 +448,14 @@
                                 originated in BGP, and
                         </t>
                         <t>
-                            (2) the of set IP prefixes that are sometimes, but not always,
+                            (2) the set of IP prefixes that are sometimes, but not always,
                                 originated in BGP.
                         </t>
                     </list>
                     The ROA SHOULD NOT include any IP prefixes that the operator knows will not be
                     originated in BGP.
-                    In general, the ROA SHOULD NOT make the use of the maxLength attribute unless
-                    doing so has no impact on the set of included prefixes.
+                    In general, the ROA SHOULD NOT make use of the maxLength attribute unless doing
+                    so has no impact on the set of included prefixes.
                 </t>
 
                 <t>
@@ -605,7 +605,7 @@
             In RTBH filtering, highly specific prefixes (greater than /24 in IPv4 and greater than
             /48 in IPv6; possibly even /32 (IPv4) and /128 (IPv6)) are announced in BGP.
             These announcements are tagged with a BLACKHOLE Community <xref target="RFC7999"/>.
-            It is obviously not desirable to use large maxlength or include any such highly
+            It is obviously not desirable to use large maxLength or include any such highly
             specific prefixes in the ROAs to accommodate destination-based RTBH filtering, for the
             reasons set out above.
         </t>
