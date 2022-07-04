@@ -270,13 +270,13 @@
                     </t>
                     <t>
                         Because AS 64496 does not actually originate a route for 192.168.0.0/24,
-                        the hijacker's route is the *only* route to the 192.168.0.0/24.
-                        The longest-prefix-match routing ensures that the hijacker's route to the
+                        the hijacker's route is the *only* route for 192.168.0.0/24.
+                        Longest-prefix-match routing ensures that the hijacker's route to the
                         subprefix 192.168.0.0/24 is always preferred over the legitimate route to
                         192.168.0.0/16 originated by AS 64496.
                     </t>
                 </list>
-                Thus, the hijacker's route propagates through the Internet, the traffic destined
+                Thus, the hijacker's route propagates through the Internet, and traffic destined
                 for IP addresses in 192.168.0.0/24 will be delivered to the hijacker.
             </t>
 
