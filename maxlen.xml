@@ -635,19 +635,34 @@
 
     </section>
 
+    <section title="Operational Considerations" anchor="operational-considerations">
+        <t>
+            The recommendations set out in this document, in particular, those in
+            <xref target="recommendations"/>, involve trade-offs between operational agility and
+            security.
+        </t>
+        <t>
+            Operators adopting the recommended practice of issuing minimal ROAs will, by definition
+            need to make changes to their existing set of issued ROAs in order to effect changes to
+            the set of prefixes which are originated in BGP.
+        </t>
+        <t>
+            Even in the case of routing changes that are planned in advance, existing procedures
+            may need to be updated to incorporate changes to issued ROAs, and additional time
+            allowed for those changes to propagate.
+        </t>
+        <t>
+            Operators are encouraged to carefully review the issues highlighted in light
+            of their specific operational requirements. Failure to do so could, in the worst case,
+            result in a self-inflicted denial of service.
+        </t>
+    </section>
+
     <section title="Security Considerations" anchor="security-considerations">
         <t>
             This document makes recommendations regarding the use of RPKI-based origin validation
             as defined in <xref target="RFC6811"/>, and as such introduces no additional security
             considerations beyond those set out therein.
-        </t>
-
-        <t>
-            The recommendations set out in this document, in particular, those in
-            <xref target="recommendations"/>, involve trade-offs between operational agility and
-            security. Operators are encouraged to carefully review the issues highlighted in light
-            of their specific operational requirements. Failure to do so could, in the worst case,
-            result in a self-inflicted denial of service.
         </t>
     </section>
 
