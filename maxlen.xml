@@ -635,12 +635,6 @@
 
     </section>
 
-    <section anchor="IANA" title="IANA Considerations">
-        <t>
-            This document includes no request to IANA.
-        </t>
-    </section>
-
     <section title="Security Considerations" anchor="security-considerations">
         <t>
             This document makes recommendations regarding the use of RPKI-based origin validation
@@ -654,6 +648,12 @@
             security. Operators are encouraged to carefully review the issues highlighted in light
             of their specific operational requirements. Failure to do so could, in the worst case,
             result in a self-inflicted denial of service.
+        </t>
+    </section>
+
+    <section anchor="IANA" title="IANA Considerations">
+        <t>
+            This document includes no request to IANA.
         </t>
     </section>
 
