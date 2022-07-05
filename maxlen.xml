@@ -9,7 +9,7 @@
 <?rfc comments="yes"?>
 <?rfc inline="yes"?>
 
-<rfc category="bcp" docName="draft-ietf-sidrops-rpkimaxlen-09" ipr="trust200902">
+<rfc category="bcp" docName="draft-ietf-sidrops-rpkimaxlen-11" ipr="trust200902">
     <front>
         <title abbrev="RPKI maxLength">The Use of maxLength in the RPKI</title>
 
@@ -83,7 +83,7 @@
 
         <date />
 
-        <!-- <workgroup></workgroup> -->
+        <workgroup>Internet Engineering Task Force (IETF)</workgroup>
 
         <keyword>Secure Internet routing</keyword>
         <keyword>Resource public key infrastructure</keyword>
@@ -91,11 +91,11 @@
         <abstract>
 
             <t>
-                This document recommends ways to reduce forged-origin hijack attack surface by
+                This document recommends ways to reduce the forged-origin hijack attack surface by
                 prudently limiting the set of IP prefixes that are included in a Route Origin
                 Authorization (ROA). One recommendation is to avoid using the maxLength attribute
                 in ROAs except in some specific cases. The recommendations complement and extend
-                those in RFC 7115. The document also discusses creation of ROAs for facilitating
+                those in RFC 7115. The document also discusses the creation of ROAs for facilitating
                 the use of Distributed Denial of Service (DDoS) mitigation services. Considerations
                 related to ROAs and origin validation in the context of destination-based Remote
                 Triggered Black Hole (RTBH) filtering are also highlighted.
@@ -121,13 +121,13 @@
                 The ROA format also supports a maxLength attribute. According to
                 <xref target="RFC6482"/>, "When present, the maxLength specifies the maximum length
                 of the IP address prefix that the AS is authorized to advertise."
-                Thus, rather than requiring the ROA to list each prefix the AS is authorized to
+                Thus, rather than requiring the ROA to list each prefix that the AS is authorized to
                 originate, the maxLength attribute provides a shorthand that authorizes an AS to
                 originate a set of IP prefixes.
             </t>
 
             <t>
-                However, measurements of RPKI deployments have found that use of the maxLength in
+                However, measurements of RPKI deployments have found that the use of the maxLength in
                 ROAs tends to lead to security problems.
                 In particular, measurements taken in June 2017 showed that 84% of the prefixes
                 specified in ROAs that use the maxLength attribute, were vulnerable to a
@@ -147,12 +147,12 @@
             <t>
                 For this reason, this document recommends that, whenever possible, operators SHOULD
                 use "minimal ROAs" that authorize only those IP prefixes that are actually
-                originated in BGP, and no other prefixes. Further, it recommends ways to reduce
+                originated in BGP, and no other prefixes. Further, it recommends ways to reduce the
                 forged-origin attack surface by prudently limiting the address space that is
                 included in Route Origin Authorizations (ROAs). One recommendation is to avoid
                 using the maxLength attribute in ROAs except in some specific cases. The
                 recommendations complement and extend those in <xref target="RFC7115"/>. The
-                document also discusses creation of ROAs for facilitating the use of Distributed
+                document also discusses the creation of ROAs for facilitating the use of Distributed
                 Denial of Service (DDoS) mitigation services. Considerations related to ROAs and
                 origin validation in the context of destination-based Remote Triggered Black Hole 
                 (RTBH) filtering are also highlighted.
@@ -220,7 +220,7 @@
                             truthfulness of the BGP AS_PATH attribute) is not deployed.
                     </t>
                 </list>
-                Note that this set of assumptions accurately describes a substantial, and growing,
+                Note that this set of assumptions accurately describes a substantial and growing
                 number of large Internet networks at the time of writing.
             </t>
 
@@ -270,13 +270,13 @@
                     </t>
                     <t>
                         Because AS 64496 does not actually originate a route for 192.168.0.0/24,
-                        the hijacker's route is the *only* route to the 192.168.0.0/24.
+                        the hijacker's route is the *only* route for 192.168.0.0/24.
                         Longest-prefix-match routing ensures that the hijacker's route to the
                         subprefix 192.168.0.0/24 is always preferred over the legitimate route to
                         192.168.0.0/16 originated by AS 64496.
                     </t>
                 </list>
-                Thus, the hijacker's route propagates through the Internet, the traffic destined
+                Thus, the hijacker's route propagates through the Internet, and traffic destined
                 for IP addresses in 192.168.0.0/24 will be delivered to the hijacker.
             </t>
 
@@ -341,7 +341,7 @@
             <t>
                 In summary, a forged-origin subprefix hijack has the same impact as a regular
                 subprefix hijack, despite the increased AS_PATH length of the illegitimate route.
-                A forged-origin *subprefix* hijack is also more damaging than forged-origin
+                A forged-origin *subprefix* hijack is also more damaging than the forged-origin
                 *prefix* hijack.
             </t>
 
@@ -354,7 +354,7 @@
                 authorized in ROAs have a maxLength longer than their prefix length.
                 Of these, the vast majority (84%) were non-minimal, as they included subprefixes
                 that are not announced in BGP by the legitimate AS, and were thus vulnerable to
-                forged origin subprefix hijacks.
+                forged-origin subprefix hijacks.
                 See <xref target="GSG17"/> for details.
             </t>
 
@@ -413,7 +413,7 @@
                 <t>
                     Operational requirements may require that a route for an IP prefix be
                     originated on an ad-hoc basis, with little or no prior warning.
-                    An example of such a situation arises where an operator wishes to make use of
+                    An example of such a situation arises when an operator wishes to make use of
                     DDoS mitigation services that use BGP to redirect traffic via a "scrubbing
                     center".
                 </t>
@@ -464,7 +464,7 @@
                 </t>
 
                 <t>
-                    Consider the following scenario prior to deployment of RPKI.
+                    Consider the following scenario prior to the deployment of RPKI.
                     Suppose AS 64496 announced 192.168.0.0/16 and has a contract with a Distributed
                     Denial of Service (DDoS) mitigation service provider that holds AS 64500.
                     Further, assume that the DDoS mitigation service contract applies to all IP
@@ -549,7 +549,7 @@
                     originated.
                 </t>
                 <t>
-                    The use of maxLength in this second ROA also comes with an additional risk.
+                    The use of maxLength in this second ROA also comes with additional risk.
                     While it permits the DDoS mitigation service at AS 64500 to originate prefix
                     192.168.0.0/24 during a DDoS attack in that space, it also makes the  *other*
                     /24 prefixes covered by the /22 prefix (i.e., 192.168.1.0/24, 192.168.2.0/24,
@@ -559,19 +559,19 @@
 
             <section title="Defensive de-aggregation in response to prefix hijacks" anchor="deaggr">
                 <t>
-                    In responding to certain classes of prefix hijack, in particular the
+                    In responding to certain classes of prefix hijack, in particular, the
                     forged-origin subprefix hijack described above, it may be desirable for the
-                    victim to perform "defensive de-aggregation". That is: to begin originating
+                    victim to perform "defensive de-aggregation", i.e. to begin originating
                     more-specific prefixes in order to compete with the hijack routes for selection
-                    as best path in networks that are not performing RPKI-based route origin
+                    as the best path in networks that are not performing RPKI-based route origin
                     validation <xref target="RFC6811"/>.
                 </t>
                 <t>
                     In some topologies, where at least one AS on every path between the victim
                     and hijacker filters ROV invalid prefixes, it may be the case that the
-                    existence of a minimal ROA issued by the victim prevents the defensive more-
-                    specific prefixes being propagated to the networks topologically close to the
-                    attacker, thus hampering the effectiveness of this response.
+                    existence of a minimal ROA issued by the victim prevents the defensive
+                    more-specific prefixes being propagated to the networks topologically close to
+                    the attacker, thus hampering the effectiveness of this response.
                 </t>
                 <t>
                     Nevertheless, this document recommends that where possible, network operators
@@ -605,13 +605,13 @@
             In RTBH filtering, highly specific prefixes (greater than /24 in IPv4 and greater than
             /48 in IPv6; possibly even /32 (IPv4) and /128 (IPv6)) are announced in BGP.
             These announcements are tagged with a BLACKHOLE Community <xref target="RFC7999"/>.
-            It is obviously not desirable to use large maxLength or include any such highly
+            It is obviously not desirable to use a large maxLength or include any such highly
             specific prefixes in the ROAs to accommodate destination-based RTBH filtering, for the
             reasons set out above.
         </t>
 
         <t>
-            As a result, RPKI based route origin validation <xref target="RFC6811"/> is a poor fit
+            As a result, RPKI-based route origin validation <xref target="RFC6811"/> is a poor fit
             for the validation of RTBH routes.
             Specification of new procedures to address this use case through the use of the RPKI is
             outside the scope of this document.
@@ -635,19 +635,41 @@
 
     </section>
 
+    <section title="Operational Considerations" anchor="operational-considerations">
+        <t>
+            The recommendations set out in this document, in particular, those in
+            <xref target="recommendations"/>, involve trade-offs between operational agility and
+            security.
+        </t>
+        <t>
+            Operators adopting the recommended practice of issuing minimal ROAs will, by definition
+            need to make changes to their existing set of issued ROAs in order to effect changes to
+            the set of prefixes which are originated in BGP.
+        </t>
+        <t>
+            Even in the case of routing changes that are planned in advance, existing procedures
+            may need to be updated to incorporate changes to issued ROAs, and additional time
+            allowed for those changes to propagate.
+        </t>
+        <t>
+            Operators are encouraged to carefully review the issues highlighted (especially those
+            in <xref target="nominimal"/> and <xref target="deaggr"/>) in light of their specific
+            operational requirements. Failure to do so could, in the worst case, result in a
+            self-inflicted denial of service.
+        </t>
+    </section>
+
     <section title="Security Considerations" anchor="security-considerations">
         <t>
-            This document makes recommendations regarding the use of RPKI based origin validation
+            This document makes recommendations regarding the use of RPKI-based origin validation
             as defined in <xref target="RFC6811"/>, and as such introduces no additional security
             considerations beyond those set out therein.
         </t>
+    </section>
 
+    <section anchor="IANA" title="IANA Considerations">
         <t>
-            The recommendations set out in this document, in particular those in
-            <xref target="recommendations"/>, involve trade-offs between operational agility and
-            security. Operators are encouraged to carefully review the issues highlighted in light
-            of their specific operational requirements. Failure to do so could, in the worst case,
-            result in a self-inflicted denial of service.
+            This document includes no request to IANA.
         </t>
     </section>
 
@@ -730,21 +752,6 @@
             <!-- <seriesInfo name="in" value="NDSS 2017" /> -->
         </reference>
 
-        <reference anchor="NIST-800-189" target="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-189.pdf">
-            
-            <front>
-                <title>Resilient Interdomain Traffic Exchange: BGP Security and DDoS Mitigation</title>
-                <author initials="K." surname="Sriram"><organization /></author>
-                <author initials="D." surname="Montgomery"><organization /></author>
-               
-                <date year="December 2019" />
-            </front>
-            <seriesInfo name="NIST Special Publication," value="NIST SP 800-189" />
-        </reference>
-
-
-
-
         <?rfc include="reference.RFC.5737.xml"?>
         <?rfc include="reference.RFC.6907.xml"?>
         <?rfc include="reference.RFC.7115.xml"?>
@@ -754,5 +761,4 @@
 
 </back>
 </rfc>
-<!-- vim: et ts=4 sts=4 sw=4 colorcolumn=100 spell :
--->
+<!-- vim: et ts=4 sts=4 sw=4 colorcolumn=100 spell : -->
