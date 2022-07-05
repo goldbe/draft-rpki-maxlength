@@ -652,9 +652,10 @@
             allowed for those changes to propagate.
         </t>
         <t>
-            Operators are encouraged to carefully review the issues highlighted in light
-            of their specific operational requirements. Failure to do so could, in the worst case,
-            result in a self-inflicted denial of service.
+            Operators are encouraged to carefully review the issues highlighted (especially those
+            in <xref target="nominimal"/> and <xref target="deaggr"/>) in light of their specific
+            operational requirements. Failure to do so could, in the worst case, result in a
+            self-inflicted denial of service.
         </t>
     </section>
 
