@@ -559,7 +559,7 @@
                 </t>
             </section>
 
-            <section title="Defensive de-aggregation in response to prefix hijacks" anchor="deaggr">
+            <section title="Defensive De-aggregation In Response To Prefix Hijacks" anchor="deaggr">
                 <t>
                     In responding to certain classes of prefix hijack, in particular, the
                     forged-origin subprefix hijack described above, it may be desirable for the
