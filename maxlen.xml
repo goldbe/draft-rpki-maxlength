@@ -272,7 +272,7 @@
                     </t>
                     <t>
                         Because AS 64496 does not actually originate a route for 192.168.0.0/24,
-                        the hijacker's route is the *only* route for 192.168.0.0/24.
+                        the hijacker's route is the only route for 192.168.0.0/24.
                         Longest-prefix-match routing ensures that the hijacker's route to the
                         subprefix 192.168.0.0/24 is always preferred over the legitimate route to
                         192.168.0.0/16 originated by AS 64496.
@@ -283,7 +283,7 @@
             </t>
 
             <t>
-                The forged-origin *subprefix* hijack would have failed if a "minimal ROA" described
+                The forged-origin subprefix hijack would have failed if a "minimal ROA" described
                 below was used instead of the "loose ROA".
                 In this example, a "minimal ROA" would be:
                 <list>
@@ -313,7 +313,7 @@
 
             <t>
                 Thus, if a "minimal ROA" had been used, the attacker would be forced to launch a
-                forged-origin *prefix* hijack in order to attract traffic, as follows:
+                forged-origin prefix hijack in order to attract traffic, as follows:
                 <list>
                     <t>
                         The  hijacker AS 64511 sends a BGP announcement "192.168.0.0/16: AS 64511,
@@ -323,12 +323,12 @@
             </t>
 
             <t>
-                This forged-origin *prefix* hijack is significantly less damaging than the
-                forged-origin *subprefix* hijack:
+                This forged-origin prefix hijack is significantly less damaging than the
+                forged-origin subprefix hijack:
                 <list>
                     <t>
                         AS 64496 legitimately originates 192.168.0.0/16 in BGP, so the hijacker
-                        AS 64511 is not presenting the *only* route to 192.168.0.0/16.
+                        AS 64511 is not presenting the only route to 192.168.0.0/16.
                     </t>
                     <t>
                         Moreover, the path originated by AS 64511 is one hop longer than the path
@@ -336,15 +336,15 @@
                     </t>
                 </list>
                 As discussed in <xref target="LSG16"/>, this means that the hijacker will attract
-                less traffic than he would have in the forged-origin *subprefix* hijack, where
-                the hijacker presents the *only* route to the hijacked subprefix.
+                less traffic than he would have in the forged-origin subprefix hijack, where
+                the hijacker presents the only route to the hijacked subprefix.
             </t>
 
             <t>
                 In summary, a forged-origin subprefix hijack has the same impact as a regular
                 subprefix hijack, despite the increased AS_PATH length of the illegitimate route.
-                A forged-origin *subprefix* hijack is also more damaging than the forged-origin
-                *prefix* hijack.
+                A forged-origin subprefix hijack is also more damaging than the forged-origin
+                prefix hijack.
             </t>
 
         </section>
@@ -541,7 +541,7 @@
                 </t>
                 <t>
                     The second ROA uses the maxLength attribute because it is designed to
-                    explicitly enable AS 64500 to originate *any* /24 subprefix of 192.168.0.0/22.
+                    explicitly enable AS 64500 to originate any /24 subprefix of 192.168.0.0/22.
                 </t>
                 <t>
                     As before, the second ROA is not "minimal" because it contains prefixes that
@@ -553,7 +553,7 @@
                 <t>
                     The use of maxLength in this second ROA also comes with additional risk.
                     While it permits the DDoS mitigation service at AS 64500 to originate prefix
-                    192.168.0.0/24 during a DDoS attack in that space, it also makes the  *other*
+                    192.168.0.0/24 during a DDoS attack in that space, it also makes the other
                     /24 prefixes covered by the /22 prefix (i.e., 192.168.1.0/24, 192.168.2.0/24,
                     192.168.3.0/24) vulnerable to a forged-origin subprefix attacks.
                 </t>
