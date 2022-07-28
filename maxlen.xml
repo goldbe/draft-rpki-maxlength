@@ -564,7 +564,7 @@
                     victim to perform "defensive de-aggregation", i.e. to begin originating
                     more-specific prefixes in order to compete with the hijack routes for selection
                     as the best path in networks that are not performing RPKI-based route origin
-                    validation <xref target="RFC6811"/>.
+                    validation (ROV) <xref target="RFC6811"/>.
                 </t>
                 <t>
                     In some topologies, where at least one AS on every path between the victim
@@ -761,4 +761,5 @@
 
 </back>
 </rfc>
-<!-- vim: et ts=4 sts=4 sw=4 colorcolumn=100 spell : -->
+<!-- vim: et ts=4 sts=4 sw=4 colorcolumn=100 spell :
+-->
