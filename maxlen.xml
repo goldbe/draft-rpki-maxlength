@@ -166,7 +166,7 @@
 
             <t>
                 Best current practices described in this document require no changes to the RPKI
-                specification and will not increase the number of signed ROAs in the RPKI, because
+                specification and will not increase the number of signed ROAs in the RPKI because
                 ROAs already support lists of IP prefixes <xref target="RFC6482"/>.
             </t>
 
@@ -296,7 +296,7 @@
             </t>
 
             <t>
-                The "minimal ROA" renders AS 64511's BGP announcement invalid, because:
+                The "minimal ROA" renders AS 64511's BGP announcement invalid because:
                 <list>
                     <t>
                         (1) this ROA "covers" the attacker's announcement (since 192.168.0.0/24 is
@@ -394,7 +394,7 @@
 
             <t>
                 This practice requires no changes to the RPKI specification and need not increase
-                the number of signed ROAs in the RPKI, because ROAs already support lists of IP
+                the number of signed ROAs in the RPKI because ROAs already support lists of IP
                 prefixes <xref target="RFC6482"/>.
                 See also <xref target="GSG17"/> for further discussion of why this practice will
                 have minimal impact on the performance of the RPKI ecosystem.
