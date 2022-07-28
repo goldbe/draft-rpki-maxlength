@@ -131,13 +131,13 @@
                 ROAs tends to lead to security problems.
                 In particular, measurements taken in June 2017 showed that 84% of the prefixes
                 specified in ROAs that use the maxLength attribute, were vulnerable to a
-                forged-origin subprefix hijack <xref target="HARMFUL" />.
-                The forged-origin prefix or subprefix hijack involves inserting the legitimate AS 
+                forged-origin sub-prefix hijack <xref target="HARMFUL" />.
+                The forged-origin prefix or sub-prefix hijack involves inserting the legitimate AS
                 as specified in the ROA as the origin AS in the AS_PATH, and can be launched
-                against any IP prefix/subprefix that has a ROA. Consider a prefix/subprefix that
+                against any IP prefix/sub-prefix that has a ROA. Consider a prefix/sub-prefix that
                 has a ROA but is unused, i.e., not announced in BGP by a legitimate AS. A forged
-                origin hijack involving such a prefix/subprefix can propagate widely throughout the
-                Internet. On the other hand, if the prefix/subprefix were announced by the
+                origin hijack involving such a prefix/sub-prefix can propagate widely throughout the
+                Internet. On the other hand, if the prefix/sub-prefix were announced by the
                 legitimate AS, then the propagation of the forged-origin hijack is somewhat limited
                 because of its increased AS_PATH length relative to the legitimate announcement. Of
                 course, forged-origin hijacks are harmful in both cases but the extent of harm is
@@ -202,13 +202,13 @@
 
         </section>
 
-        <section title="Forged-Origin Subprefix Hijack" anchor="hijack">
+        <section title="Forged-Origin Sub-prefix Hijack" anchor="hijack">
 
             <t>
-                A detailed description and discussion of forged-origin subprefix hijacks are
-                presented here, especially considering the case when the subprefix is not announced
+                A detailed description and discussion of forged-origin sub-prefix hijacks are
+                presented here, especially considering the case when the sub-prefix is not announced
                 in BGP.
-                The forged-origin subprefix hijack is relevant to a scenario in which:
+                The forged-origin sub-prefix hijack is relevant to a scenario in which:
                 <list>
                     <t>
                         (1) the RPKI <xref target="RFC6480"/> is deployed, and
@@ -227,14 +227,14 @@
             </t>
 
             <t>
-                The forged-origin subprefix hijack <xref target="RFC7115" />
+                The forged-origin sub-prefix hijack <xref target="RFC7115" />
                 <xref target="GCHSS" /> is described here using a running example.
             </t>
 
             <t>
                 Consider the IP prefix 192.168.0.0/16 which is allocated to an organization that
                 also operates AS 64496.
-                In BGP, AS 64496 originates the IP prefix 192.168.0.0/16 as well as its subprefix
+                In BGP, AS 64496 originates the IP prefix 192.168.0.0/16 as well as its sub-prefix
                 192.168.225.0/24.
                 Therefore, the RPKI should contain a ROA authorizing AS 64496 to originate these
                 two IP prefixes.
@@ -249,14 +249,14 @@
                     </t>
                 </list>
                 We refer to the above as a "loose ROA" since it authorizes AS 64496 to originate
-                any subprefix of 192.168.0.0/16 up to and including length /24, rather than only
+                any sub-prefix of 192.168.0.0/16 up to and including length /24, rather than only
                 those prefixes that are intended to be announced in BGP.
             </t>
 
             <t>
                 Because AS 64496 only originates two prefixes in BGP: 192.168.0.0/16 and
                 192.168.225.0/24, all other prefixes authorized by the "loose ROA" (for instance,
-                192.168.0.0/24), are vulnerable to the following forged-origin subprefix hijack
+                192.168.0.0/24), are vulnerable to the following forged-origin sub-prefix hijack
                 <xref target="RFC7115"/> <xref target="GCHSS" />:
                 <list>
                     <t>
@@ -274,7 +274,7 @@
                         Because AS 64496 does not actually originate a route for 192.168.0.0/24,
                         the hijacker's route is the only route for 192.168.0.0/24.
                         Longest-prefix-match routing ensures that the hijacker's route to the
-                        subprefix 192.168.0.0/24 is always preferred over the legitimate route to
+                        sub-prefix 192.168.0.0/24 is always preferred over the legitimate route to
                         192.168.0.0/16 originated by AS 64496.
                     </t>
                 </list>
@@ -283,7 +283,7 @@
             </t>
 
             <t>
-                The forged-origin subprefix hijack would have failed if a "minimal ROA" described
+                The forged-origin sub-prefix hijack would have failed if a "minimal ROA" described
                 below was used instead of the "loose ROA".
                 In this example, a "minimal ROA" would be:
                 <list>
@@ -300,7 +300,7 @@
                 <list>
                     <t>
                         (1) this ROA "covers" the attacker's announcement (since 192.168.0.0/24 is
-                            a subprefix of 192.168.0.0/16), and
+                            a sub-prefix of 192.168.0.0/16), and
                     </t>
                     <t>
                         (2) there is no ROA "matching" the attacker's announcement (there is no ROA
@@ -308,7 +308,7 @@
                     </t>
                 </list>
                 If routers ignore invalid BGP announcements, the minimal ROA above ensures that the
-                subprefix hijack will fail.
+                sub-prefix hijack will fail.
             </t>
 
             <t>
@@ -324,7 +324,7 @@
 
             <t>
                 This forged-origin prefix hijack is significantly less damaging than the
-                forged-origin subprefix hijack:
+                forged-origin sub-prefix hijack:
                 <list>
                     <t>
                         AS 64496 legitimately originates 192.168.0.0/16 in BGP, so the hijacker
@@ -336,14 +336,14 @@
                     </t>
                 </list>
                 As discussed in <xref target="LSG16"/>, this means that the hijacker will attract
-                less traffic than he would have in the forged-origin subprefix hijack, where
-                the hijacker presents the only route to the hijacked subprefix.
+                less traffic than he would have in the forged-origin sub-prefix hijack, where
+                the hijacker presents the only route to the hijacked sub-prefix.
             </t>
 
             <t>
-                In summary, a forged-origin subprefix hijack has the same impact as a regular
-                subprefix hijack, despite the increased AS_PATH length of the illegitimate route.
-                A forged-origin subprefix hijack is also more damaging than the forged-origin
+                In summary, a forged-origin sub-prefix hijack has the same impact as a regular
+                sub-prefix hijack, despite the increased AS_PATH length of the illegitimate route.
+                A forged-origin sub-prefix hijack is also more damaging than the forged-origin
                 prefix hijack.
             </t>
 
@@ -354,15 +354,15 @@
             <t>
                 Network measurements taken in June 2017 showed that 12% of the IP prefixes
                 authorized in ROAs have a maxLength longer than their prefix length.
-                Of these, the vast majority (84%) were non-minimal, as they included subprefixes
+                Of these, the vast majority (84%) were non-minimal, as they included sub-prefixes
                 that are not announced in BGP by the legitimate AS, and were thus vulnerable to
-                forged-origin subprefix hijacks.
+                forged-origin sub-prefix hijacks.
                 See <xref target="GSG17"/> for details.
             </t>
 
             <t>
                 These measurements suggest that operators commonly misconfigure the maxLength
-                attribute, and unwittingly open themselves up to forged-origin subprefix hijacks.
+                attribute, and unwittingly open themselves up to forged-origin sub-prefix hijacks.
                 That is, they are exposing a much larger attack surface for forged-origin hijacks
                 than necessary.
             </t>
@@ -514,7 +514,7 @@
                 <t>
                     Notice, however, that this scheme does not come without risks.
                     Namely, all IP addresses in 192.168.0.0/22 are vulnerable to a forged-origin
-                    subprefix hijack during normal operations, when the /22 prefix is not
+                    sub-prefix hijack during normal operations, when the /22 prefix is not
                     originated.
                     (The hijacker AS 64511 would send the BGP announcement "192.168.0.0/22: 
                     AS 64511, AS 64500", falsely claiming that AS 64511 is a neighbor of AS 64500
@@ -541,13 +541,13 @@
                 </t>
                 <t>
                     The second ROA uses the maxLength attribute because it is designed to
-                    explicitly enable AS 64500 to originate any /24 subprefix of 192.168.0.0/22.
+                    explicitly enable AS 64500 to originate any /24 sub-prefix of 192.168.0.0/22.
                 </t>
                 <t>
                     As before, the second ROA is not "minimal" because it contains prefixes that
                     are not originated by anyone in BGP during normal operations.
                     As before, all IP addresses in 192.168.0.0/22 are vulnerable to a forged-origin
-                    subprefix hijack during normal operations, when the /22 prefix is not
+                    sub-prefix hijack during normal operations, when the /22 prefix is not
                     originated.
                 </t>
                 <t>
@@ -555,14 +555,14 @@
                     While it permits the DDoS mitigation service at AS 64500 to originate prefix
                     192.168.0.0/24 during a DDoS attack in that space, it also makes the other
                     /24 prefixes covered by the /22 prefix (i.e., 192.168.1.0/24, 192.168.2.0/24,
-                    192.168.3.0/24) vulnerable to a forged-origin subprefix attacks.
+                    192.168.3.0/24) vulnerable to a forged-origin sub-prefix attacks.
                 </t>
             </section>
 
             <section title="Defensive De-aggregation In Response To Prefix Hijacks" anchor="deaggr">
                 <t>
                     In responding to certain classes of prefix hijack, in particular, the
-                    forged-origin subprefix hijack described above, it may be desirable for the
+                    forged-origin sub-prefix hijack described above, it may be desirable for the
                     victim to perform "defensive de-aggregation", i.e. to begin originating
                     more-specific prefixes in order to compete with the hijack routes for selection
                     as the best path in networks that are not performing RPKI-based route origin
