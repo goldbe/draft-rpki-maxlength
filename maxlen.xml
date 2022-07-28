@@ -166,15 +166,17 @@
 
             <t>
                 Best current practices described in this document require no changes to the RPKI
-                specification and will not increase the number of signed ROAs in the RPKI, because
+                specification and will not increase the number of signed ROAs in the RPKI because
                 ROAs already support lists of IP prefixes <xref target="RFC6482"/>.
             </t>
 
             <section title="Requirements">
                 <t>
-                    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", 
-                    SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
-                    interpreted as described in <xref target="RFC2119" />.
+                    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
+                    "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this
+                    document are to be interpreted as described in BCP 14 <xref target="RFC2119"/>
+                    <xref target="RFC8174"/> when, and only when, they appear in all capitals, as
+                    shown here.
                 </t>
             </section>
 
@@ -294,7 +296,7 @@
             </t>
 
             <t>
-                The "minimal ROA" renders AS 64511's BGP announcement invalid, because:
+                The "minimal ROA" renders AS 64511's BGP announcement invalid because:
                 <list>
                     <t>
                         (1) this ROA "covers" the attacker's announcement (since 192.168.0.0/24 is
@@ -392,7 +394,7 @@
 
             <t>
                 This practice requires no changes to the RPKI specification and need not increase
-                the number of signed ROAs in the RPKI, because ROAs already support lists of IP
+                the number of signed ROAs in the RPKI because ROAs already support lists of IP
                 prefixes <xref target="RFC6482"/>.
                 See also <xref target="GSG17"/> for further discussion of why this practice will
                 have minimal impact on the performance of the RPKI ecosystem.
@@ -408,18 +410,18 @@
                 policy.
             </t>
 
-            <section title="Facilitating Ad-hoc Routing Changes and DDoS Mitigation" anchor="nominimal">
+            <section title="Facilitating Ad Hoc Routing Changes and DDoS Mitigation" anchor="nominimal">
 
                 <t>
                     Operational requirements may require that a route for an IP prefix be
-                    originated on an ad-hoc basis, with little or no prior warning.
+                    originated on an ad hoc basis, with little or no prior warning.
                     An example of such a situation arises when an operator wishes to make use of
                     DDoS mitigation services that use BGP to redirect traffic via a "scrubbing
                     center".
                 </t>
 
                 <t>
-                    In order to ensure that such ad-hoc routing changes are effective, there should
+                    In order to ensure that such ad hoc routing changes are effective, there should
                     exist a ROA validating the new route. However a difficulty arises due to the
                     fact that newly created objects in the RPKI are made visible to relying parties
                     considerably more slowly than routing updates in BGP.
@@ -427,7 +429,7 @@
 
                 <t>
                     Ideally, it would not be necessary to pre-create the ROA which validates the
-                    ad-hoc route, and instead create it "on-the-fly" as required. However, this is
+                    ad hoc route, and instead create it "on-the-fly" as required. However, this is
                     practical only if the latency imposed by the propagation of RPKI data is
                     guaranteed to be within acceptable limits in the circumstances.
                     For time-critical interventions such as responding to a DDoS attack, this is
@@ -557,7 +559,7 @@
                 </t>
             </section>
 
-            <section title="Defensive de-aggregation in response to prefix hijacks" anchor="deaggr">
+            <section title="Defensive De-aggregation In Response To Prefix Hijacks" anchor="deaggr">
                 <t>
                     In responding to certain classes of prefix hijack, in particular, the
                     forged-origin subprefix hijack described above, it may be desirable for the
@@ -685,7 +687,10 @@
             Ties de Kock,
             and
             Amreesh Phokeer
-            for comments and suggestions.
+            for comments and suggestions,
+            to Roni Even for Gen-ART review,
+            and
+            to Jean Mahoney for ART-ART review.
         </t>
     </section>
 
@@ -700,6 +705,7 @@
         <?rfc include="reference.RFC.6480.xml"?>
         <?rfc include="reference.RFC.6482.xml"?>
         <?rfc include="reference.RFC.6811.xml"?>
+        <?rfc include="reference.RFC.8174.xml"?>
 
     </references>
 
