@@ -129,8 +129,8 @@
             <t>
                 However, measurements of RPKI deployments have found that the use of the maxLength in
                 ROAs tends to lead to security problems.
-                In particular, measurements taken in June 2017 showed that 84% of the prefixes
-                specified in ROAs that use the maxLength attribute, were vulnerable to a
+                In particular, measurements taken in June 2017 showed that of the prefixes
+                specified in ROAs that use the maxLength attribute, 84% were vulnerable to a
                 forged-origin sub-prefix hijack <xref target="HARMFUL" />.
                 The forged-origin prefix or sub-prefix hijack involves inserting the legitimate AS
                 as specified in the ROA as the origin AS in the AS_PATH, and can be launched
@@ -388,8 +388,8 @@
                 maxLength are actually announced by the AS in the ROA.
                 Another exception is where: (a) the maxLength is substantially larger compared to
                 the specified prefix length in the ROA, and (b) a large number of more specific
-                prefixes in that range are announced by the AS in the ROA. This case should occur
-                rarely in practice (if at all). Operator discretion is necessary in this case.
+                prefixes in that range are announced by the AS in the ROA. In practice, this case
+                should occur rarely (if at all). Operator discretion is necessary in this case.
             </t>
 
             <t>
@@ -404,8 +404,8 @@
                 Operators that have existing ROAs published in the RPKI system SHOULD perform a
                 review of such objects, especially where they make use of the maxLength attribute,
                 to ensure that the set of included prefixes is "minimal" with respect to the
-                current BGP origination and routing policies, and replace the published ROAs as
-                necessary.
+                current BGP origination and routing policies.
+                Published ROAs SHOULD be replaced as necessary.
                 Such an exercise SHOULD be repeated whenever the operator makes changes to either
                 policy.
             </t>
@@ -421,8 +421,8 @@
                 </t>
 
                 <t>
-                    In order to ensure that such ad hoc routing changes are effective, there should
-                    exist a ROA validating the new route. However a difficulty arises due to the
+                    In order to ensure that such ad hoc routing changes are effective, a ROA
+                    validating the new route should exist. However a difficulty arises due to the
                     fact that newly created objects in the RPKI are made visible to relying parties
                     considerably more slowly than routing updates in BGP.
                 </t>
@@ -474,7 +474,7 @@
                     When a DDoS attack is detected and reported by AS 64496, AS 64500 immediately
                     originates 192.168.0.0/22, thus attracting all the DDoS traffic to itself.
                     The traffic is scrubbed at AS 64500 and then sent back to AS 64496 over a
-                    backhaul data link.
+                    backhaul link.
                     Notice that, during a DDoS attack, the DDoS mitigation service provider AS
                     64500 originates a /22 prefix that is longer than AS 64496's /16 prefix, and so
                     all the traffic (destined to addresses in 192.168.0.0/22) that normally goes to
@@ -555,7 +555,7 @@
                     While it permits the DDoS mitigation service at AS 64500 to originate prefix
                     192.168.0.0/24 during a DDoS attack in that space, it also makes the other
                     /24 prefixes covered by the /22 prefix (i.e., 192.168.1.0/24, 192.168.2.0/24,
-                    192.168.3.0/24) vulnerable to a forged-origin sub-prefix attacks.
+                    192.168.3.0/24) vulnerable to forged-origin sub-prefix attacks.
                 </t>
             </section>
 
@@ -572,8 +572,8 @@
                     In some topologies, where at least one AS on every path between the victim
                     and hijacker filters ROV invalid prefixes, it may be the case that the
                     existence of a minimal ROA issued by the victim prevents the defensive
-                    more-specific prefixes being propagated to the networks topologically close to
-                    the attacker, thus hampering the effectiveness of this response.
+                    more-specific prefixes from being propagated to the networks topologically
+                    close to the attacker, thus hampering the effectiveness of this response.
                 </t>
                 <t>
                     Nevertheless, this document recommends that where possible, network operators
@@ -590,7 +590,7 @@
                         </t>
                         <t>
                             Other methods for reducing the size of such neighborhoods are available
-                            to potential victims, such as establishing direct eBGP adjacencies with
+                            to potential victims, such as establishing direct EBGP adjacencies with
                             networks from whom the defensive routes would otherwise be hidden.
                         </t>
                     </list>
@@ -639,7 +639,7 @@
 
     <section title="Operational Considerations" anchor="operational-considerations">
         <t>
-            The recommendations set out in this document, in particular, those in
+            The recommendations specified in this document, in particular, those in
             <xref target="recommendations"/>, involve trade-offs between operational agility and
             security.
         </t>
@@ -650,8 +650,8 @@
         </t>
         <t>
             Even in the case of routing changes that are planned in advance, existing procedures
-            may need to be updated to incorporate changes to issued ROAs, and additional time
-            allowed for those changes to propagate.
+            may need to be updated to incorporate changes to issued ROAs, and may require
+            additional time allowed for those changes to propagate.
         </t>
         <t>
             Operators are encouraged to carefully review the issues highlighted (especially those
@@ -665,7 +665,7 @@
         <t>
             This document makes recommendations regarding the use of RPKI-based origin validation
             as defined in <xref target="RFC6811"/>, and as such introduces no additional security
-            considerations beyond those set out therein.
+            considerations beyond those specified therein.
         </t>
     </section>
 
@@ -688,9 +688,10 @@
             and
             Amreesh Phokeer
             for comments and suggestions,
-            to Roni Even for Gen-ART review,
+            to Roni Even for the Gen-ART review,
+            to Jean Mahoney for the ART-ART review,
             and
-            to Jean Mahoney for ART-ART review.
+            to Acee Lindem for the Routing Directorate review.
         </t>
     </section>
 
