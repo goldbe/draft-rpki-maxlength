@@ -97,8 +97,9 @@
                 in ROAs except in some specific cases. The recommendations complement and extend
                 those in RFC 7115. The document also discusses the creation of ROAs for facilitating
                 the use of Distributed Denial of Service (DDoS) mitigation services. Considerations
-                related to ROAs and origin validation in the context of destination-based Remote
-                Triggered Black Hole (RTBH) filtering are also highlighted.
+                related to ROAs and origin validation in the context of destination-based Remotely
+                Triggered Discard Route (RTDR) (elsewhere referred to as "Remotely Triggered
+                Black Hole") filtering are also highlighted.
             </t>
 
         </abstract>
@@ -154,8 +155,9 @@
                 recommendations complement and extend those in <xref target="RFC7115"/>. The
                 document also discusses the creation of ROAs for facilitating the use of Distributed
                 Denial of Service (DDoS) mitigation services. Considerations related to ROAs and
-                origin validation in the context of destination-based Remote Triggered Black Hole 
-                (RTBH) filtering are also highlighted.
+                origin validation in the context of destination-based Remotely Triggered Discard
+                Route (RTDR) (elsewhere referred to as "Remotely Triggered Black Hole") filtering
+                are also highlighted.
             </t>
             <t>
                 One ideal place to implement the ROA related recommendations is in the user
@@ -599,22 +601,23 @@
 
     </section>
 
-    <section title="Considerations for RTBH Filtering Scenarios" anchor="rtbh">
+    <section title="Considerations for RTDR Filtering Scenarios" anchor="rtdr">
         <t>
             Considerations related to ROAs and origin validation <xref target="RFC6811"/> for the
-            case of destination-based Remote Triggered Black Hole (RTBH) filtering are addressed
-            here.
-            In RTBH filtering, highly specific prefixes (greater than /24 in IPv4 and greater than
+            case of destination-based Remotely Triggered Discard Route (RTDR) (elsewhere referred
+            to as "Remotely Triggered Black Hole") filtering are addressed here.
+            In RTDR filtering, highly specific prefixes (greater than /24 in IPv4 and greater than
             /48 in IPv6; possibly even /32 (IPv4) and /128 (IPv6)) are announced in BGP.
-            These announcements are tagged with a BLACKHOLE Community <xref target="RFC7999"/>.
+            These announcements are tagged with the Well-known BGP Community defined by
+            <xref target="RFC7999"/>.
             It is obviously not desirable to use a large maxLength or include any such highly
-            specific prefixes in the ROAs to accommodate destination-based RTBH filtering, for the
+            specific prefixes in the ROAs to accommodate destination-based RTDR filtering, for the
             reasons set out above.
         </t>
 
         <t>
             As a result, RPKI-based route origin validation <xref target="RFC6811"/> is a poor fit
-            for the validation of RTBH routes.
+            for the validation of RTDR routes.
             Specification of new procedures to address this use case through the use of the RPKI is
             outside the scope of this document.
         </t>
@@ -624,12 +627,12 @@
             <list style="symbols">
                 <t>
                     Operators SHOULD NOT create non-minimal ROAs (either by creating additional
-                    ROAs, or through the use of maxLength) for the purpose of advertising RTBH
+                    ROAs, or through the use of maxLength) for the purpose of advertising RTDR
                     routes; and
                 </t>
                 <t>
                     Operators providing a means for operators of neighboring autonomous systems to
-                    advertise RTBH routes via BGP MUST NOT make the creation of non-minimal ROAs
+                    advertise RTDR routes via BGP MUST NOT make the creation of non-minimal ROAs
                     a pre-requisite for its use.
                 </t>
             </list>
