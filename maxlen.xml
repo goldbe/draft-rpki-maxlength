@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE rfc SYSTEM "rfc2629.dtd" []>
 <?rfc toc="yes"?>
 <?rfc symrefs="yes"?>
 <?rfc compact="yes"?>
@@ -9,7 +8,12 @@
 <?rfc comments="yes"?>
 <?rfc inline="yes"?>
 
-<rfc category="bcp" docName="draft-ietf-sidrops-rpkimaxlen-11" ipr="trust200902">
+<rfc category="bcp"
+     docName="draft-ietf-sidrops-rpkimaxlen-12"
+     submissionType="IETF"
+     ipr="trust200902"
+     consensus="true">
+
     <front>
         <title abbrev="RPKI maxLength">The Use of maxLength in the RPKI</title>
 
