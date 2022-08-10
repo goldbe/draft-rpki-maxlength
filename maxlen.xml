@@ -194,6 +194,11 @@
                     document uses <xref target="RFC1918" /> address space for constructing example
                     prefixes.
                 </t>
+                <t>
+                    Note that although the examples in this document are presented using IPv4
+                    prefixes, all the analysis thereof and the recommendations made are
+                    equally valid for the equivalent IPv6 cases.
+                </t>
             </section>
 
         </section>
