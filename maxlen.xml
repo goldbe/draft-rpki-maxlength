@@ -9,7 +9,8 @@
 <?rfc inline="yes"?>
 
 <rfc category="bcp"
-     docName="draft-ietf-sidrops-rpkimaxlen-12"
+     seriesNo="185"
+     docName="draft-ietf-sidrops-rpkimaxlen-13"
      submissionType="IETF"
      ipr="trust200902"
      consensus="true">
@@ -146,7 +147,8 @@
                 legitimate AS, then the propagation of the forged-origin hijack is somewhat limited
                 because of its increased AS_PATH length relative to the legitimate announcement. Of
                 course, forged-origin hijacks are harmful in both cases but the extent of harm is
-                greater for unannounced prefixes.
+                greater for unannounced prefixes. See <xref target="hijack"/> for detailed
+                discussion.
             </t>
 
             <t>
@@ -192,6 +194,11 @@
                     insufficient for use as example prefixes in this document. Therefore, this
                     document uses <xref target="RFC1918" /> address space for constructing example
                     prefixes.
+                </t>
+                <t>
+                    Note that although the examples in this document are presented using IPv4
+                    prefixes, all the analysis thereof and the recommendations made are
+                    equally valid for the equivalent IPv6 cases.
                 </t>
             </section>
 
@@ -407,12 +414,12 @@
             </t>
 
             <t>
-                Operators that have existing ROAs published in the RPKI system SHOULD perform a
-                review of such objects, especially where they make use of the maxLength attribute,
-                to ensure that the set of included prefixes is "minimal" with respect to the
-                current BGP origination and routing policies.
-                Published ROAs SHOULD be replaced as necessary.
-                Such an exercise SHOULD be repeated whenever the operator makes changes to either
+                Operators implementing these recommendations and that have existing ROAs published
+                in the RPKI system MUST perform a review of such objects, especially where they
+                make use of the maxLength attribute, to ensure that the set of included prefixes is
+                "minimal" with respect to the current BGP origination and routing policies.
+                Published ROAs MUST be replaced as necessary.
+                Such an exercise MUST be repeated whenever the operator makes changes to either
                 policy.
             </t>
 
@@ -666,6 +673,13 @@
             operational requirements. Failure to do so could, in the worst case, result in a
             self-inflicted denial of service.
         </t>
+        <t>
+            The recommendations made in section 5 are likely to be more onerous for operators
+            utilising large IP address space allocations from which many more-specific
+            advertisements are made in BGP. Operators of such networks are encouraged to seek
+            opportunities to automate the required procedures in order to minimise manual
+            operational burden.
+        </t>
     </section>
 
     <section title="Security Considerations" anchor="security-considerations">
@@ -692,13 +706,16 @@
             Thanks are also due to
             Matthias Waehlisch,
             Ties de Kock,
+            Amreesh Phokeer,
+            Éric Vyncke,
             and
-            Amreesh Phokeer
+            Alvaro Retana
             for comments and suggestions,
             to Roni Even for the Gen-ART review,
             to Jean Mahoney for the ART-ART review,
+            to Acee Lindem for the Routing Directorate review,
             and
-            to Acee Lindem for the Routing Directorate review.
+            to Sean Turner for the Security Area Directorate review.
         </t>
     </section>
 
@@ -713,6 +730,7 @@
         <?rfc include="reference.RFC.6480.xml"?>
         <?rfc include="reference.RFC.6482.xml"?>
         <?rfc include="reference.RFC.6811.xml"?>
+        <?rfc include="reference.RFC.7115.xml"?>
         <?rfc include="reference.RFC.8174.xml"?>
 
     </references>
@@ -768,7 +786,6 @@
 
         <?rfc include="reference.RFC.5737.xml"?>
         <?rfc include="reference.RFC.6907.xml"?>
-        <?rfc include="reference.RFC.7115.xml"?>
         <?rfc include="reference.RFC.7999.xml"?>
         <?rfc include="reference.RFC.8205.xml"?>
     </references>
