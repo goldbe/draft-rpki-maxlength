@@ -146,7 +146,8 @@
                 legitimate AS, then the propagation of the forged-origin hijack is somewhat limited
                 because of its increased AS_PATH length relative to the legitimate announcement. Of
                 course, forged-origin hijacks are harmful in both cases but the extent of harm is
-                greater for unannounced prefixes.
+                greater for unannounced prefixes. See <xref target="hijack"/> for detailed
+                discussion.
             </t>
 
             <t>
@@ -692,8 +693,9 @@
             Thanks are also due to
             Matthias Waehlisch,
             Ties de Kock,
+            Amreesh Phokeer,
             and
-            Amreesh Phokeer
+            Éric Vyncke
             for comments and suggestions,
             to Roni Even for the Gen-ART review,
             to Jean Mahoney for the ART-ART review,
