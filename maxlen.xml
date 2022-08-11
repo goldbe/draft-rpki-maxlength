@@ -391,9 +391,8 @@
             </t>
 
             <t>
-                In general, except in some special cases, operators SHOULD avoid using the
-                maxLength attribute in their ROAs, since its inclusion will usually make the ROA
-                non-minimal.
+                In general, operators SHOULD avoid using the maxLength attribute in their ROAs,
+                since its inclusion will usually make the ROA non-minimal.
             </t>
 
             <t>
@@ -709,8 +708,9 @@
             Amreesh Phokeer,
             Éric Vyncke,
             Alvaro Retana,
+            John Scudder,
             and
-            John Scudder
+            Roman Danyliw
             for comments and suggestions,
             to Roni Even for the Gen-ART review,
             to Jean Mahoney for the ART-ART review,
