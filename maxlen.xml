@@ -349,7 +349,7 @@
                     </t>
                 </list>
                 As discussed in <xref target="LSG16"/>, this means that the hijacker will attract
-                less traffic than he would have in the forged-origin sub-prefix hijack, where
+                less traffic than it would have in the forged-origin sub-prefix hijack, where
                 the hijacker presents the only route to the hijacked sub-prefix.
             </t>
 
@@ -708,8 +708,9 @@
             Ties de Kock,
             Amreesh Phokeer,
             Éric Vyncke,
+            Alvaro Retana,
             and
-            Alvaro Retana
+            John Scudder
             for comments and suggestions,
             to Roni Even for the Gen-ART review,
             to Jean Mahoney for the ART-ART review,
