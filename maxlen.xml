@@ -10,7 +10,7 @@
 
 <rfc category="bcp"
      seriesNo="185"
-     docName="draft-ietf-sidrops-rpkimaxlen-13"
+     docName="draft-ietf-sidrops-rpkimaxlen-14"
      submissionType="IETF"
      ipr="trust200902"
      consensus="true">
@@ -117,8 +117,8 @@
                 The RPKI <xref target="RFC6480"/> uses Route Origin Authorizations (ROAs) to create
                 a cryptographically verifiable mapping from an IP prefix to a set of autonomous
                 systems (ASes) that are authorized to originate that prefix.
-                Each ROA contains a set of IP prefixes, and an AS number of an AS authorized to
-                originate all the IP prefixes in the set <xref target="RFC6482"/>.
+                Each ROA contains a set of IP prefixes, and the AS number of one of the ASes
+                authorized to originate all the IP prefixes in the set <xref target="RFC6482"/>.
                 The ROA is cryptographically signed by the party that holds a certificate for the
                 set of IP prefixes.
             </t>
@@ -349,7 +349,7 @@
                     </t>
                 </list>
                 As discussed in <xref target="LSG16"/>, this means that the hijacker will attract
-                less traffic than he would have in the forged-origin sub-prefix hijack, where
+                less traffic than it would have in the forged-origin sub-prefix hijack, where
                 the hijacker presents the only route to the hijacked sub-prefix.
             </t>
 
@@ -391,9 +391,8 @@
             </t>
 
             <t>
-                In general, except in some special cases, operators SHOULD avoid using the
-                maxLength attribute in their ROAs, since its inclusion will usually make the ROA
-                non-minimal.
+                In general, operators SHOULD avoid using the maxLength attribute in their ROAs,
+                since its inclusion will usually make the ROA non-minimal.
             </t>
 
             <t>
@@ -708,8 +707,11 @@
             Ties de Kock,
             Amreesh Phokeer,
             Éric Vyncke,
+            Alvaro Retana,
+            John Scudder,
+            Roman Danyliw,
             and
-            Alvaro Retana
+            Andrew Alston
             for comments and suggestions,
             to Roni Even for the Gen-ART review,
             to Jean Mahoney for the ART-ART review,
