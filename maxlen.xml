@@ -10,7 +10,7 @@
 
 <rfc category="bcp"
      seriesNo="185"
-     docName="draft-ietf-sidrops-rpkimaxlen-14"
+     docName="draft-ietf-sidrops-rpkimaxlen-15"
      submissionType="IETF"
      ipr="trust200902"
      consensus="true">
@@ -167,9 +167,8 @@
             </t>
             <t>
                 One ideal place to implement the ROA related recommendations is in the user
-                interfaces for configuring ROAs. Thus, this document further recommends that
-                designers and/or providers of such user interfaces SHOULD provide warnings to draw
-                the user's attention to the risks of using the maxLength attribute.
+                interfaces for configuring ROAs. Recommendations for implementors of such user
+                interfaces are provided in <xref target="ui"/>
             </t>
 
             <t>
@@ -650,6 +649,26 @@
 
     </section>
 
+    <section title="User Interface Design Recommendations" anchor="ui">
+        <t>
+            Most operator interaction with the RPKI system when creating or modifying ROAs will
+            occur via a user interface that abstracts the underlying encoding, signing and
+            publishing operations.
+        </t>
+        <t>
+            This document recommends that designers and/or providers of such user interfaces SHOULD
+            provide warnings to draw the user's attention to the risks of creating non-minimal
+            ROAs in general, and use of the maxLength attribute in particular.
+        </t>
+        <t>
+            Warnings provided by such a system may vary in nature from generic warnings based
+            purely on the inclusion of the maxLength attribute, to customised guidance based on the
+            observable BGP routing policy of the operator in question.
+            The choices made in this respect are expected to be dependent on the target user
+            audience of the implementation.
+        </t>
+    </section>
+
     <section title="Operational Considerations" anchor="operational-considerations">
         <t>
             The recommendations specified in this document, in particular, those in
@@ -710,8 +729,9 @@
             Alvaro Retana,
             John Scudder,
             Roman Danyliw,
+            Andrew Alston,
             and
-            Andrew Alston
+            Murray Kucherawy
             for comments and suggestions,
             to Roni Even for the Gen-ART review,
             to Jean Mahoney for the ART-ART review,
