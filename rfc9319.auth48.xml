@@ -20,6 +20,8 @@ Original:
 
 Current:
   The Use of maxLength in the Resource Public Key Infrastructure (RPKI)
+
+[BM]: Ack
 -->
 
   <front>
@@ -103,7 +105,7 @@ Current:
       cases. The recommendations complement and extend those in RFC 7115. This
       document also discusses the creation of ROAs for facilitating the use of
       Distributed Denial of Service (DDoS) mitigation services. Considerations
-      related to ROAs and origin validation in the context of
+      related to ROAs and RPKI-based Route Origin Validation (ROV) in the context of
       destination-based Remotely Triggered Discard Route (RTDR) (elsewhere
       referred to as "Remotely Triggered Black Hole") filtering are also
       highlighted.
@@ -133,11 +135,11 @@ Current:
       </t>
 
       <t>However, measurements of RPKI deployments have found that the use of
-      the maxLength in ROAs tends to lead to security problems.  
+      the maxLength attribute in ROAs tends to lead to security problems.
       In particular, measurements taken in June 2017 showed that of the
       prefixes specified in ROAs that use the maxLength attribute, 84% were
       vulnerable to a forged-origin sub-prefix hijack <xref
-      target="HARMFUL"/>.  The forged-origin prefix or sub-prefix hijack
+      target="GSG17"/>.  The forged-origin prefix or sub-prefix hijack
       involves inserting the legitimate AS as specified in the ROA as the
       origin AS in the AS_PATH; the hijack can be launched against any IP
       prefix/sub-prefix that has a ROA. Consider a prefix/sub-prefix that has
@@ -161,7 +163,7 @@ Current:
       recommendations complement and extend those in <xref
       target="RFC7115"/>. The document also discusses the creation of ROAs for
       facilitating the use of DDoS mitigation
-      services. Considerations related to ROAs and origin validation in the
+      services. Considerations related to ROAs and RPKI-based Route Origin Validation (ROV) in the
       context of destination-based Remotely Triggered Discard Route (RTDR)
       (elsewhere referred to as "Remotely Triggered Black Hole") filtering are
       also highlighted.
@@ -183,10 +185,17 @@ Original:
    This practice requires no changes to the RPKI specification and need
    not increase the number of signed ROAs in the RPKI because ROAs
    already support lists of IP prefixes [RFC6482]. 
+
+[BM]:
+  Updated to "specifications" (plural).
+  These specifications are spread over a considerable number of documents.
+  I don't think that attempting to reference all of them is helpful.
+  Similarly I think adding a reference to only RFC6480 may mis-lead the
+  reader to beleive that this is the only one that is relevant.
 -->
 
-      <t>Best current practices described in this document require no changes
-      to the RPKI specification and will not increase the number of signed
+      <t>The practices described in this document require no changes
+      to the RPKI specifications and will not increase the number of signed
       ROAs in the RPKI because ROAs already support lists of IP prefixes <xref
       target="RFC6482"/>.
       </t>
@@ -216,6 +225,8 @@ Updated:
    Therefore, this
    document uses the address space defined in [RFC1918] for constructing example
    prefixes.
+
+[BM]: Thanks. Updated text works for me.
 -->
 
         <t>The documentation prefixes recommended in <xref target="RFC5737"/> are
@@ -240,11 +251,13 @@ Original:
    It is assumed that the reader understands BGP [RFC4271], RPKI
    [RFC6480], Route Origin Authorizations (ROAs) [RFC6482], RPKI-based
    Prefix Validation [RFC6811], and BGPsec [RFC8205].
+
+[BM]: The correct term should be "Route Origin Validation". I have corrected.
 -->
 
       <t>It is assumed that the reader understands BGP <xref
       target="RFC4271"/>, RPKI <xref target="RFC6480"/>, ROAs <xref
-      target="RFC6482"/>, RPKI-based Prefix Validation <xref
+      target="RFC6482"/>, RPKI-based Route Origin Validation <xref
       target="RFC6811"/>, and BGPsec <xref target="RFC8205"/>.
       </t>
     </section>
@@ -257,7 +270,7 @@ Original:
       </t>
       <ol type="(%d)" spacing="normal">
       <li>the RPKI <xref target="RFC6480"/> is deployed, and</li>
-      <li>routers use RPKI origin validation to drop invalid
+      <li>routers use RPKI-based Route Origin Validation to drop invalid
       routes <xref target="RFC6811"/>, but </li>
       <li>BGPsec <xref target="RFC8205"/> (or any similar method
       to validate the truthfulness of the BGP AS_PATH attribute) is not
@@ -278,6 +291,8 @@ Original:
    ...
    ...are vulnerable to the following
    forged-origin sub-prefix hijack [RFC7115] [GCHSS]:
+
+[BM]: Confirmed: those refs are correct.
 -->
 
       <t>The forged-origin sub-prefix hijack <xref target="RFC7115"/>
@@ -299,7 +314,7 @@ Original:
       in BGP.
       </t>
       <t>Because AS 64496 only originates two prefixes in BGP (192.168.0.0/16
-      and 192.168.225.0/24), all other prefixes authorized by the "loose ROA"
+      and 192.168.225.0/24), all other prefixes authorized by the loose ROA
       (for instance, 192.168.0.0/24) are vulnerable to the following
       forged-origin sub-prefix hijack <xref target="RFC7115"/> <xref
       target="GCHSS"/>:
@@ -322,13 +337,13 @@ Original:
       the hijacker.
       </t>
       <t>The forged-origin sub-prefix hijack would have failed if a "minimal
-      ROA" described below was used instead of the "loose ROA".  In this
-      example, a "minimal ROA" would be:
+      ROA" as described in <xref target="recommendations"/> was used instead of the loose ROA.  In this
+      example, a minimal ROA would be:
       </t>
       <t indent="3">ROA:(192.168.0.0/16, 192.168.225.0/24, AS 64496)</t>
       <t>This ROA is "minimal" because it includes only those IP prefixes that AS 64496 originates in BGP, but no other IP prefixes <xref target="RFC6907"/>.
       </t>
-      <t>The "minimal ROA" renders AS 64511's BGP announcement invalid because:
+      <t>The minimal ROA renders AS 64511's BGP announcement invalid because:
       </t>
       <ol type="(%d)" spacing="normal">
         <li>this ROA "covers" the attacker's announcement (since
@@ -340,7 +355,7 @@ Original:
       <t>If routers ignore invalid BGP announcements, the minimal ROA above
       ensures that the sub-prefix hijack will fail.
       </t>
-      <t>Thus, if a "minimal ROA" had been used, the attacker would be forced
+      <t>Thus, if a minimal ROA had been used, the attacker would be forced
       to launch a forged-origin prefix hijack in order to attract traffic as
       follows:
       </t>
@@ -370,7 +385,7 @@ Original:
       <name>Measurements of the RPKI</name>
 
       <t>Network measurements taken in June 2017 showed that 12% of the IP
-      prefixes authorized in ROAs have a maxLength longer than their prefix
+      prefixes authorized in ROAs have a maxLength value longer than their prefix
       length.  Of these, the vast majority (84%) were non-minimal, as they
       included sub-prefixes that are not announced in BGP by the legitimate
       AS and were thus vulnerable to forged-origin sub-prefix hijacks.  See
@@ -384,7 +399,7 @@ Original:
     </section>
     <section anchor="recommendations">
       <name>Recommendations about Minimal ROAs and maxLength</name>
-      <t>Operators <bcp14>SHOULD</bcp14> use "minimal ROAs" whenever possible.
+      <t>Operators <bcp14>SHOULD</bcp14> use minimal ROAs whenever possible.
       A minimal ROA contains only those IP prefixes that are actually
       originated by an AS in BGP and no other IP prefixes.  See <xref
       target="hijack"/> for an example.
@@ -394,8 +409,8 @@ Original:
       non-minimal.
       </t>
       <t>One such exception may be when all more specific prefixes permitted
-      by the maxLength are actually announced by the AS in the ROA.  Another
-      exception is where: (a) the maxLength is substantially larger compared
+      by the maxLength value are actually announced by the AS in the ROA.  Another
+      exception is where: (a) the maxLength value is substantially larger compared
       to the specified prefix length in the ROA, and (b) a large number of
       more specific prefixes in that range are announced by the AS in the
       ROA. In practice, this case should occur rarely (if at all). Operator
@@ -520,7 +535,7 @@ Original:
         vulnerable to a forged-origin sub-prefix hijack during normal
         operations when the /22 prefix is not originated.
         </t>
-        <t>The use of maxLength in this second ROA also comes with additional
+        <t>The use of the maxLength attribute in this second ROA also comes with additional
         risk.  While it permits the DDoS mitigation service at AS 64500 to
         originate prefix 192.168.0.0/24 during a DDoS attack in that space, it
         also makes the other /24 prefixes covered by the /22 prefix (i.e.,
@@ -535,7 +550,7 @@ Original:
         desirable for the victim to perform "defensive de-aggregation",
         i.e., to begin originating more-specific prefixes in order to compete
         with the hijack routes for selection as the best path in networks that
-        are not performing RPKI-based route origin validation (ROV) <xref
+        are not performing RPKI-based Route Origin Validation (ROV) <xref
         target="RFC6811"/>.
         </t>
         <t>In topologies where at least one AS on every path between the
@@ -565,7 +580,7 @@ Original:
     </section>
     <section anchor="rtdr">
       <name>Considerations for RTDR Filtering Scenarios</name>
-      <t>Considerations related to ROAs and origin validation <xref
+      <t>Considerations related to ROAs and ROV<xref
       target="RFC6811"/> for the case of destination-based RTDR
       (elsewhere referred to as "Remotely Triggered Black
       Hole") filtering are addressed here.  In RTDR filtering, highly specific
@@ -574,12 +589,12 @@ Original:
       announcements are tagged with the well-known BGP community defined by
       <xref target="RFC7999"/>.  For the reasons set out
       above, it is obviously not desirable to use a large
-      maxLength or include any such highly specific prefixes in the ROAs to
+      maxLength value or include any such highly specific prefixes in the ROAs to
       accommodate destination-based RTDR filtering.
       </t>
 
-      <t>As a result, RPKI-based route origin validation <xref
-      target="RFC6811"/> is a poor fit for the validation of RTDR routes.
+      <t>As a result, ROV <xref target="RFC6811"/> is a poor fit for the
+      validation of RTDR routes.
       Specification of new procedures to address this use case through the use
       of the RPKI is outside the scope of this document.
       </t>
@@ -587,7 +602,7 @@ Original:
       </t>
       <ul spacing="normal">
         <li>Operators <bcp14>SHOULD NOT</bcp14> create non-minimal ROAs
-        (by either creating additional ROAs or using maxLength)
+        (by either creating additional ROAs or using the maxLength attribute)
         for the purpose of advertising RTDR routes; and</li>
         <li>Operators providing a means for operators of neighboring
         autonomous systems to advertise RTDR routes via BGP <bcp14>MUST
@@ -646,7 +661,7 @@ Original:
     <section anchor="security-considerations">
       <name>Security Considerations</name>
       <t>This document makes recommendations regarding the use of RPKI-based
-      origin validation as defined in <xref target="RFC6811"/> and, as such,
+      Route Origin Validation as defined in <xref target="RFC6811"/> and, as such,
       introduces no additional security considerations beyond those specified
       therein.
       </t>
@@ -685,6 +700,8 @@ Original:
    [HARMFUL]  Gilad, Y., Sagga, O., and S. Goldberg, "MaxLength
               Considered Harmful to the RPKI", 2017,
               <https://eprint.iacr.org/2016/1015.pdf>.
+
+[BM]: Well spotted! I have made the changes that you suggested.
 -->
 
         <reference anchor="GSG17" target="https://eprint.iacr.org/2016/1015.pdf">
@@ -746,23 +763,6 @@ Original:
 	  <refcontent>NDSS 2017</refcontent>
         </reference>
 
-        <reference anchor="HARMFUL" target="https://eprint.iacr.org/2016/1015.pdf">
-            <front>
-            <title>MaxLength Considered Harmful to the RPKI</title>
-            <author initials="Y." surname="Gilad">
-              <organization/>
-            </author>
-            <author initials="O." surname="Sagga">
-              <organization/>
-            </author>
-            <author initials="S." surname="Goldberg">
-              <organization/>
-            </author>
-            <date year="2017"/>
-	    </front>
-	    <refcontent>CoNEXT '17</refcontent>
-	  <seriesInfo name="DOI" value="10.1145/3143361.3143363"/>
-        </reference>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5737.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6907.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7999.xml"/>
@@ -798,6 +798,10 @@ marks. Please review and let us know if the usage should be consistent.
 Note that we will apply the decision for "minimal ROA" to instances of "loose
 ROA". Currently all three instances of "loose ROA" are in quotation marks.
 
+[BM]:
+  I have reviewed the various usages and elected to keep those that introduce
+  the respective terms quoted, and removed the quotations from the remainder.
+
 
 b) Please review instances of "maxLength" and let us know if any updates are
 needed.  For example, should "the maxLength" in the following sentence read
@@ -806,6 +810,10 @@ needed.  For example, should "the maxLength" in the following sentence read
 Original:
    However, measurements of RPKI deployments have found that the use of
    the maxLength in ROAs tends to lead to security problems.
+
+[BM]:
+  Thanks for pointing this out. I have reviewed each usage, and used either
+  "the maxLength attribute" of "maxLength value" as the context dictates.
 
 
 c) Please review the following forms and let us know if any updates are needed
@@ -816,6 +824,10 @@ RPKI-based origin validation
 RPKI origin validation
 RPKI-based route origin validation (ROV)
 RPKI-based route origin validation
+
+[BM]:
+  RPKI-based Route Origin Validation (or ROV) is the correct term. I have
+  changed thoughout.
 -->
 
 <!-- [rfced] Please review the "Inclusive Language" portion of the online 
@@ -825,6 +837,12 @@ and let us know if any changes are needed.
 For example, please consider whether the following should be updated: 
 
 black hole
+
+[BM]:
+  The issue of inclusive language was discussed during LC, and the remaining
+  usages of the term "black hole" are there to provide readers with a pointer
+  to help understand the change in terminology.
+  I don't beleive this item requires further action.
 -->
 
   
